@@ -4,7 +4,7 @@ This repository contains documentation, reports, plans, roadmaps, and more gener
 
 ## Links
 
-* [Roadmap]()
+* [Roadmap](https://github.com/orgs/cardano-foundation/projects/27/views/1)
 * [Weekly meetings](docs/weekly)
 
 ## Projects
