@@ -1,8 +1,30 @@
 # Asynchronous communication
 
-What did we learn from Darren Murph’s presentation?  
-Do we want to adopt some of his recommendations?  
-How do we start?
+The engineering team was given a presentation by Darren Murph, in June 2025,
+about asynchronous communication.
+
+In a nutshell, asynchronous communication is a way of collaborating that
+maximises what team members can do asynchronously in order to spend precious
+synchronous time on the most valuable things.
+
+For example, the following should be done asynchronously:
+- sharing information
+- status updates
+- problem-solving
+
+While the following would be the best things to spend synchronous time on:
+- connecting
+- innovating
+- decision making
+
+This culture notably requires:
+- using shared platforms for everything
+- a very high focus on quality documentation
+
+This document takes stock of the HAL team's current practice in those respects
+and identifies possible improvements that the team wishes to make.
+
+For more details about asynchronous working, see the [GitLab handbook][GitLabHB]
 
 ## Shared platform
 
@@ -10,24 +32,30 @@ How do we start?
 > that there was a single point of entry for all work projects, regardless of
 > function.
 
-- We already use shared platforms for everything  
-- Do we use too many?  
-- Do we have a single point of entry?  
-- Is the documentation curated? Up-to-date?  
-- Can we get by without needing to ask someone?  
-- Do we have a document of team conventions ? (git workflow, what tools we use,
-  naming conventions, code conventions, documentation conventions)
+We already use shared platforms for everything. It's possible that we use too
+many, so that it is not always clear where to put/find something
 
-Possible improvements:
+We currently use:
 
-- Have a single point of entry, at least for HAL (this repository's README.md)
-- Delete duplicated and obsolete project management documents
+- E-mail: this is the CF's official primary medium for internal communcations.
+  We also have a team e-mail address (hal@cardanofoundation.org).
+- Slack: the CF's second medium, for more instant messaging. Also used a little
+  with outside parties.
+- Discord for communicating outside of the team.
+- GitHub and/or Radicle to store Git repositories (which include documentation
+  and open-source collaboration tools e.g. issue tracking, pull requests etc.)
+- Miro (a bit?)
+- Google Drive (used to store process/team related documents, still useful for
+  corporate stuff, presentations?)
+- Sometimes https://forum.cardano.org
 
 ## Low context communication
 
 > Assume your audience has no-to-low context
 
-- Do we do this at all?
+This is something we can improve on.
+
+Cf. [Suggested Improvements](#suggested-improvements).
 
 ## Meetings
 
@@ -42,17 +70,13 @@ Possible improvements:
 
 ## Structured brainstorming
 
-- Do we do this at all?
-
-Suggestion:
-
-- Try it out on Radicle decision (rather than have a meeting)
+We tend to brainstorm synchronously.
 
 ## Operating principles and bias toward asynchronous
 
-- Is there any evidence that management endorses asynchronous communication?  
-- As a team, do we want to practice it?  
-- Who organized Darren Murph’s presentation and why?
+At the present time the CF does not endorse the asynchronous communication approach.
+
+The HAL team may nevertheless use it where possible to improve its internal work process.
 
 ## Foundational to be best-in-class
 
@@ -61,11 +85,24 @@ Suggestion:
 > 3. Great at honouring company’s handbook taxonomy  
 > 4. Great at documenting decisions
 
-- When we hire, do we investigate writing ability?  
-- Do we care about quality of writing (do we review it, discuss it, improve it?)  
-- Do we (CF or team) even have a handbook?  
-- Do we even use memos?  
-- Do we document decisions?  
-- The annual team building offsite rewards classic extrovert behaviour  
-- The monthly CF team meeting rewards classic extrovert behaviour
+There is room for improvement.
 
+## Suggested short term improvements
+
+1. Make the README.md in the hal repository a good single point of entry, from
+   which everything else can be reached.
+
+1. Curate process-related documentation and move from Google Drive to markdown
+   docs in the hal repository.
+
+1. Improve project README's by using the new template as a guide. In
+   particular, assume the audience has no or little context.
+
+1. Add other templates (CONTRIBUTING.md, ...)
+
+1. Start a handbook describing how the HAL team works, including git workflow,
+   preferred tools, coding conventions, etc.
+
+
+
+[GitLabHB]: https://handbook.gitlab.com/handbook/company/culture/all-remote/non-linear-workday/
