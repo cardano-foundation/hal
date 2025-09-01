@@ -6,6 +6,7 @@ This repository contains documentation, reports, plans, roadmaps, and more gener
 
 * [Roadmap](https://github.com/orgs/cardano-foundation/projects/27/views/1)
 * [Weekly meetings](docs/weekly)
+* [Cryptography prerequisites for ZKP](docs/crypto/gitbook.md)
 
 ## Projects
 
