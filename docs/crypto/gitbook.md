@@ -90,4 +90,40 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 ### Zig
 
+Make sure you have the latest ([master](https://ziglang.org/download/)) version of the Zig language.
+And that it is __visibible__ in the command line.
+```bash
+$ zig version
+0.16.0-dev.43+99b2b6151
+```
+
+Then you can have an **executable** file like below,
+```bash
+$ cat zigScript.zig
+//usr/bin/env zig run "$0"; exit
+
+pub fn main() void {
+    const bytes: [64]u8 = [_]u8{0} ** 63 ++ [_]u8{1};
+    const num1: ecc.Scalar = ecc.Scalar.fromBytes64(bytes);
+    const num1compressed: ecc.CompressedScalar = ecc.Scalar.toBytes(&num1);
+    const num2: ecc.Scalar = ecc.Scalar.random();
+    const num2compressed: ecc.CompressedScalar = ecc.Scalar.toBytes(&num2);
+    std.debug.print("num1={any} \nnum1={any}\nnum1 compressed={any}\n\nnum2={any}\nnum2 compressed={any}\n", .{num1, bytes, num1compressed, num2, num2compressed});
+}
+
+const std = @import("std");
+const ecc = std.crypto.ecc.Edwards25519.scalar;
+```
+
+In order to run just call:
+```bash
+$ ./zigScript.zig
+num1=.{ .limbs = { 0, 0, 0, 0, 0 } }
+num1={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }
+num1 compressed={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+
+num2=.{ .limbs = { 41927865080831364, 15208988149723144, 26122272616670642, 60268350159292730, 129259051 } }
+num2 compressed={ 132, 93, 85, 208, 43, 245, 148, 8, 176, 14, 128, 126, 8, 54, 178, 229, 10, 140, 17, 206, 92, 58, 137, 113, 194, 190, 29, 214, 43, 86, 180, 7 }
+```
+
 ## Useful facts from number theory
