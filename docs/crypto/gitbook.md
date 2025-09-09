@@ -127,3 +127,56 @@ num2 compressed={ 132, 93, 85, 208, 43, 245, 148, 8, 176, 14, 128, 126, 8, 54, 1
 ```
 
 ## Useful facts from number theory
+
+From **fundamental number theorem** we know that each natural number can be decomposed into multiplying prime numbers, ie., $`\n=p_1*p_2*...p_N`$ .
+
+### Sagemath
+
+```sagemath
+sage: n = NN(123456789)
+sage: factor(n)
+3^2 * 3607 * 3803
+```
+
+### Rust
+
+```rust
+#!/usr/bin/env rust-script
+
+//! ```cargo
+//! [dependencies]
+//! prime_factorization = "1.0.5"
+//! ```
+
+use prime_factorization::Factorization;
+
+type CustomizedResult<T> = Result<T, Box<dyn std::error::Error>>;
+
+fn main() -> CustomizedResult<()> {
+   print!("{:?}\n", Factorization::<u32>::run(123456789));
+
+   Ok(())
+}
+```
+
+```bash
+$ rust-script rustScript
+Factorization { num: 123456789, is_prime: false, factors: [3, 3, 3607, 3803] }
+```
+
+### Zig
+
+The prerequisite is having [Zig-Math-Algorithms](https://github.com/ramsyana/Zig-Math-Algorithms.git)  downloaded.
+It works with the latest release only - not with master.
+
+```bash
+$ zig version
+0.15.0-dev.379+ffd85ffcd
+$ git clone https://github.com/ramsyana/Zig-Math-Algorithms.git
+$ cd Zig-Math-Algorithms
+$ zig run src/algorithm/math/prime_factorization.zig
+Enter a positive integer greater than 1: 123456789
+
+The factorization of 123456789 is:
+3-3-3607-3803
+```
