@@ -97,33 +97,46 @@ $ zig version
 0.16.0-dev.43+99b2b6151
 ```
 
-Then you can have an **executable** file like below,
+Then you can have a zig file like below, having both main and test suites,
 ```bash
 $ cat zigScript.zig
-//usr/bin/env zig run "$0"; exit
+const std = @import("std");
+const testing = std.testing;
+const Managed = std.math.big.int.Managed;
+const Limb = std.math.big.Limb;
 
-pub fn main() void {
-    const bytes: [64]u8 = [_]u8{0} ** 63 ++ [_]u8{1};
-    const num1: ecc.Scalar = ecc.Scalar.fromBytes64(bytes);
-    const num1compressed: ecc.CompressedScalar = ecc.Scalar.toBytes(&num1);
-    const num2: ecc.Scalar = ecc.Scalar.random();
-    const num2compressed: ecc.CompressedScalar = ecc.Scalar.toBytes(&num2);
-    std.debug.print("num1={any} \nnum1={any}\nnum1 compressed={any}\n\nnum2={any}\nnum2 compressed={any}\n", .{num1, bytes, num1compressed, num2, num2compressed});
+test "setting a big number from string" {
+    var a = try Managed.init(testing.allocator);
+    defer a.deinit();
+
+    try a.setString(10, "120317241209124781241290847124");
+    try testing.expectEqual(120317241209124781241290847124, try a.toInt(u128));
 }
 
-const std = @import("std");
-const ecc = std.crypto.ecc.Edwards25519.scalar;
+pub fn main() !void {
+    var gpa1 = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocatorManaged =  gpa1.allocator();
+
+    var a = try Managed.initSet(allocatorManaged, 123456789);
+    defer a.deinit();
+
+    std.debug.print("{d}\nlimbs={any}\n\n", .{a, a.limbs});
+    try a.pow(&a, 5);
+    std.debug.print("{d}\nlimbs={any}\n\n", .{a, a.limbs});
+}
 ```
 
-In order to run just call:
+In order to run anyone just call as follows:
 ```bash
-$ ./zigScript.zig
-num1=.{ .limbs = { 0, 0, 0, 0, 0 } }
-num1={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }
-num1 compressed={ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+$ zig run zigScript.zig
+123456789
+limbs={ 123456789, 12297829382473034410, 12297829382473034410, 12297829382473034410 }
 
-num2=.{ .limbs = { 41927865080831364, 15208988149723144, 26122272616670642, 60268350159292730, 129259051 } }
-num2 compressed={ 132, 93, 85, 208, 43, 245, 148, 8, 176, 14, 128, 126, 8, 54, 178, 229, 10, 140, 17, 206, 92, 58, 137, 113, 194, 190, 29, 214, 43, 86, 180, 7 }
+28679718602997181072337614380936720482949
+limbs={ 6356712022736044677, 5204158590521663073, 84, 0, 0 }
+
+$ zig test zigScript.zig
+All 1 tests passed.
 ```
 
 ## Useful facts from number theory
