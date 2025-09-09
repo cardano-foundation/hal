@@ -9,7 +9,8 @@ Each concept is illustrated using SageMath, Rust and Zig programming languages. 
 
 ## How to run code
 
-### Sage
+<details>
+<summary>SageMath</summary>
 
 Download the latest image from docker hub and run the image in Linux CLI:
 ```bash
@@ -25,8 +26,10 @@ sage: ZZ.random_element(10**10)
 4134169080
 sage: quit
 ```
+</details>
 
-### Rust
+<details>
+<summary>Rust</summary>
 
 Make sure you have the latest Rust toolchain installed (using for example `rustup`). Then have a `rust-script` installed:
 ```bash
@@ -87,8 +90,11 @@ test tests::bytes_addition_expected ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
+</details>
 
-### Zig
+
+<details>
+<summary>Zig</summary>
 
 Make sure you have the latest ([master](https://ziglang.org/download/)) version of the Zig language.
 And that it is __visibible__ in the command line.
@@ -138,20 +144,26 @@ limbs={ 6356712022736044677, 5204158590521663073, 84, 0, 0 }
 $ zig test zigScript.zig
 All 1 tests passed.
 ```
+</details>
+
 
 ## Useful facts from number theory
 
 From **fundamental number theorem** we know that each natural number can be decomposed into multiplying prime numbers, ie., $`\n=p_1*p_2*...p_N`$ .
+And this decomposition is unequivocal.
 
-### Sagemath
+<details>
+<summary>SageMath</summary>
 
 ```sagemath
 sage: n = NN(123456789)
 sage: factor(n)
 3^2 * 3607 * 3803
 ```
+</details>
 
-### Rust
+<details>
+<summary>Rust</summary>
 
 ```rust
 #!/usr/bin/env rust-script
@@ -176,8 +188,10 @@ fn main() -> CustomizedResult<()> {
 $ rust-script rustScript
 Factorization { num: 123456789, is_prime: false, factors: [3, 3, 3607, 3803] }
 ```
+</details>
 
-### Zig
+<details>
+<summary>Zig</summary>
 
 The prerequisite is having [Zig-Math-Algorithms](https://github.com/ramsyana/Zig-Math-Algorithms.git)  downloaded.
 It works with the latest release only - not with master.
@@ -193,3 +207,17 @@ Enter a positive integer greater than 1: 123456789
 The factorization of 123456789 is:
 3-3-3607-3803
 ```
+</details>
+
+We also know that having interger number **a**, dividend, and integer number **b**, divisor, we can divide the former by the latter, and have **quotient** and **remainder**.
+
+<details>
+<summary>SageMath</summary>
+
+```sagemath
+NN(123456789) // NN(1234)  #123456789 is dividend, 1234 is divisor
+100046 # quotient
+sage: NN(123456789) % NN(1234)
+25  # remainder
+```
+</details>
