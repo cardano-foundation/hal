@@ -325,3 +325,48 @@ sage: NN(123456789123456789123456789).xgcd(NN(123))
 (3, 2, -2007427465422061611763525)
 ```
 </details>
+
+<details>
+<summary>Rust</summary>
+
+For Rust we are using [crypto-bigint](https://docs.rs/crypto-bigint/0.6.1/crypto_bigint/index.html).
+
+```rust
+$ cat rustScript
+#!/usr/bin/env rust-script
+
+//! ```cargo
+//! [dependencies]
+//! crypto-bigint = "0.6.1"
+//! ```
+
+use crypto_bigint::U256;
+
+type CustomizedResult<T> = Result<T, Box<dyn std::error::Error>>;
+
+fn to_decimal_from_le(m: &[u8]) -> u128 {
+   m.into_iter().fold((0,0), |pair, elem| (pair.0 + 256_u128.pow(pair.1) * (elem.clone() as u128), pair.1 + 1)).0
+}
+
+fn main() -> CustomizedResult<()> {
+   let a = U256::from_str_radix_vartime("123456789123456789123456789",10).unwrap();
+   let b1 = U256::from_str_radix_vartime("1234",10).unwrap();
+   let b2 = U256::from_str_radix_vartime("123",10).unwrap();
+   let gcd1 = a.gcd(&b1);
+   let gcd2 = a.gcd(&b2);
+   print!("gcd({:?},{:?})={:?}\n", to_decimal_from_le(&a.to_le_bytes()), to_decimal_from_le(&b1.to_le_bytes()), to_decimal_from_le(&gcd1.to_le_bytes()) );
+   print!("gcd({:?},{:?})={:?}\n", to_decimal_from_le(&a.to_le_bytes()), to_decimal_from_le(&b2.to_le_bytes()), to_decimal_from_le(&gcd2.to_le_bytes()) );
+
+   Ok(())
+}
+```
+
+After running we see we are consistent with SageMath results
+
+```bash
+$ rust-script rustScript
+gcd(123456789123456789123456789,1234)=1
+gcd(123456789123456789123456789,123)=3
+```
+
+</details>
