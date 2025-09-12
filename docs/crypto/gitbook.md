@@ -310,3 +310,18 @@ $ zig run zigScript.zig
 quotient=100046020359365307231326 remainder=505
 ```
 </details>
+
+**Greatest common divisor (GCD)** of integers is useful to establish if two integers are coprime, ie, their gcd is 1.
+
+<details>
+<summary>SageMath</summary>
+
+```sagemath
+sage: # gcd(a, b) = s · a + t · b
+sage: # result of xgcd: (gcd(a,b),s,t)
+sage: NN(123456789123456789123456789).xgcd(NN(1234))
+(1, -303, 30313944168887688091091902)
+sage: NN(123456789123456789123456789).xgcd(NN(123))
+(3, 2, -2007427465422061611763525)
+```
+</details>
