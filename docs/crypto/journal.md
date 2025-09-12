@@ -20,3 +20,15 @@
 
 ### 8 Sep 2025
 - modular aritmetics in SageMath, Rust using [num_modular crate](https://crates.io/crates/num-modular) and Zig using [std/math/big](https://ziglang.org/documentation/0.14.1/std/#std.math.big)
+
+### 9 Sep 2025
+- more modular aritmetics in SageMath, Rust using [crypto-bigint crate](https://crates.io/crates/crypto-bigint) and Zig using [std/math/big](https://ziglang.org/documentation/0.14.1/std/#std.math.big)
+
+### 10 Sep 2025
+- modular aritmetics for really big numbers in SageMath, Rust using [crypto-bigint crate](https://crates.io/crates/crypto-bigint) and Zig using [std/math/big](https://ziglang.org/documentation/0.14.1/std/#std.math.big)
+
+### 11 Sep 2025
+- making whole `pallas` codebase pass CI in order to have [KES PR to pallas](https://github.com/txpipe/pallas/pull/694) green. Merging the PR
+
+### 12 Sep 2025
+- playing with modular arithmetic laws in all three programming langs
