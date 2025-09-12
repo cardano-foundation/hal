@@ -149,7 +149,7 @@ All 1 tests passed.
 
 ## Useful facts from number theory
 
-From **fundamental number theorem** we know that each natural number can be decomposed into multiplying prime numbers, ie., $`\n=p_1*p_2*...p_N`$ .
+From **fundamental number theorem** we know that each natural number, _n_ can be decomposed into multiplying prime numbers, ie., $`n=p_1*p_2*...p_N`$ .
 And this decomposition is unequivocal.
 
 <details>
@@ -215,9 +215,56 @@ We also know that having interger number **a**, dividend, and integer number **b
 <summary>SageMath</summary>
 
 ```sagemath
-NN(123456789) // NN(1234)  #123456789 is dividend, 1234 is divisor
-100046 # quotient
-sage: NN(123456789) % NN(1234)
-25  # remainder
+NN(123456789123456789123456789) // NN(1234)  #123456789123456789123456789 is dividend, 1234 is divisor
+100046020359365307231326 # quotient
+sage: NN(123456789123456789123456789) % NN(1234)
+505  # remainder
 ```
+</details>
+
+<details>
+<summary>Rust</summary>
+
+For Rust we are going to use big number library specially designed for cryptographic uses [crypto-bigint](https://docs.rs/crypto-bigint/0.6.1/crypto_bigint/index.html).
+
+```rust
+#!/usr/bin/env rust-script
+
+//! ```cargo
+//! [dependencies]
+//! crypto-bigint = "0.6.1"
+//! ```
+
+use crypto_bigint::{NonZero, U256};
+use std::ops::Div;
+
+type CustomizedResult<T> = Result<T, Box<dyn std::error::Error>>;
+
+fn to_decimal(m: &[u8]) -> (u128,u32) {
+   m.into_iter().fold((0,0), |pair, elem| (pair.0 + 256_u128.pow(pair.1) * (elem.clone() as u128), pair.1 + 1))
+}
+
+fn main() -> CustomizedResult<()> {
+   let dividend = U256::from_str_radix_vartime("123456789123456789123456789",10).unwrap();
+   let divisor = U256::from_str_radix_vartime("1234",10).unwrap();
+   let quotient = dividend.div(divisor);
+   let remainder = dividend.rem(&NonZero::new(divisor).unwrap());
+   print!("quotient: hex={:?} bytes(le)={:?}\n", quotient, quotient.to_le_bytes());
+   print!("quotient: decimal={:?}\n", to_decimal(&quotient.to_le_bytes()).0);
+   print!("remainder: hex={:?} bytes(le)={:?}\n", remainder, remainder.to_le_bytes());
+   print!("remainder: decimal={:?}\n", to_decimal(&remainder.to_le_bytes()).0);
+
+   Ok(())
+}
+```
+
+After running we see, hex, byte (in little-endian encoding) and decimal representation:
+```bash
+$ rust-script rustScript
+quotient: hex=Uint(0x00000000000000000000000000000000000000000000152F81710A4F2B756C5E) bytes(le)=[94, 108, 117, 43, 79, 10, 113, 129, 47, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+quotient: decimal=100046020359365307231326
+remainder: hex=Uint(0x00000000000000000000000000000000000000000000000000000000000001F9) bytes(le)=[249, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+remainder: decimal=505
+```
+
 </details>
