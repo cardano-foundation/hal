@@ -368,5 +368,50 @@ $ rust-script rustScript
 gcd(123456789123456789123456789,1234)=1
 gcd(123456789123456789123456789,123)=3
 ```
+</details>
 
+<details>
+<summary>Zig</summary>
+
+We are going to use `Managed` arbitrary big int here.
+
+```zig
+$ cat zigScript.zig
+const std = @import("std");
+const Managed = std.math.big.int.Managed;
+
+
+pub fn main() !void {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator1 =  gpa.allocator();
+    const allocator2 =  gpa.allocator();
+    const allocator3 =  gpa.allocator();
+    const allocator4 =  gpa.allocator();
+    const allocator5 =  gpa.allocator();
+
+    var a = try Managed.initSet(allocator1, 123456789123456789123456789);
+    defer a.deinit();
+    var b1 = try Managed.initSet(allocator2, 1234);
+    defer b1.deinit();
+    var b2 = try Managed.initSet(allocator3, 123);
+    defer b2.deinit();
+    var gcd1 = try Managed.init(allocator4);
+    defer gcd1.deinit();
+    var gcd2 = try Managed.init(allocator5);
+    defer gcd2.deinit();
+
+    try Managed.gcd(&gcd1,&a,&b1);
+    try Managed.gcd(&gcd2,&a,&b2);
+
+    std.debug.print("gcd({d},{d})={d}\n", .{a,b1,gcd1});
+    std.debug.print("gcd({d},{d})={d}\n", .{a,b2,gcd2});
+}
+```
+
+Running the script gives immediately corrrect results
+```bash
+$ zig run zigScript.zig
+gcd(123456789123456789123456789,1234)=1
+gcd(123456789123456789123456789,123)=3
+```
 </details>
