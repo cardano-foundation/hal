@@ -240,7 +240,7 @@ use std::ops::Div;
 
 type CustomizedResult<T> = Result<T, Box<dyn std::error::Error>>;
 
-fn to_decimal(m: &[u8]) -> (u128,u32) {
+fn to_decimal_from_le(m: &[u8]) -> (u128,u32) {
    m.into_iter().fold((0,0), |pair, elem| (pair.0 + 256_u128.pow(pair.1) * (elem.clone() as u128), pair.1 + 1))
 }
 
@@ -250,9 +250,9 @@ fn main() -> CustomizedResult<()> {
    let quotient = dividend.div(divisor);
    let remainder = dividend.rem(&NonZero::new(divisor).unwrap());
    print!("quotient: hex={:?} bytes(le)={:?}\n", quotient, quotient.to_le_bytes());
-   print!("quotient: decimal={:?}\n", to_decimal(&quotient.to_le_bytes()).0);
+   print!("quotient: decimal={:?}\n", to_decimal_from_le(&quotient.to_le_bytes()).0);
    print!("remainder: hex={:?} bytes(le)={:?}\n", remainder, remainder.to_le_bytes());
-   print!("remainder: decimal={:?}\n", to_decimal(&remainder.to_le_bytes()).0);
+   print!("remainder: decimal={:?}\n", to_decimal_from_le(&remainder.to_le_bytes()).0);
 
    Ok(())
 }
@@ -267,4 +267,46 @@ remainder: hex=Uint(0x0000000000000000000000000000000000000000000000000000000000
 remainder: decimal=505
 ```
 
+One need to notice that the resultant quotient takes 77-bits, so neither `u32` nor `u64` is enough to give a correct result.
+
+</details>
+
+<details>
+<summary>Zig</summary>
+
+We are going to use `Managed` arbitrary big int here.
+
+```zig
+$ cat zigScript.zig
+const std = @import("std");
+const Managed = std.math.big.int.Managed;
+
+pub fn main() !void {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator1 =  gpa.allocator();
+    const allocator2 =  gpa.allocator();
+    const allocator3 =  gpa.allocator();
+    const allocator4 =  gpa.allocator();
+
+    var a = try Managed.initSet(allocator1, 123456789123456789123456789);
+    defer a.deinit();
+    var b = try Managed.initSet(allocator2, 1234);
+    defer b.deinit();
+    var r = try Managed.init(allocator3);
+    defer r.deinit();
+    var q = try Managed.init(allocator4);
+    defer q.deinit();
+
+    //q = a / b (rem r)
+    try Managed.divFloor(&q,&r,&a,&b);
+
+    std.debug.print("quotient={d} remainder={d}\n", .{q,r});
+}
+```
+
+Running the script gives immediately
+```bash
+$ zig run zigScript.zig
+quotient=100046020359365307231326 remainder=505
+```
 </details>
