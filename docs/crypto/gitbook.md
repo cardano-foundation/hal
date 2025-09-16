@@ -415,3 +415,22 @@ gcd(123456789123456789123456789,1234)=1
 gcd(123456789123456789123456789,123)=3
 ```
 </details>
+
+**Modular arithmetic** is crucial to master as it provides the computational infrastructure for algebraic types that have cryptographically useful examples of one-way functions.
+The base of it relies on Euclidean Division operation and observation that with selecting `n>=2`, we can group integers into classes:
+two integers are in the same class whenever their Euclidean Division by `n` gives the same remainder.
+Two numbers that are in the same class are called `congruent`. So, the integers `a` and `b` are congruent with
+respect to the modulus `n` if and only if the following holds $`a mod n = b mod n`$ . We write $`a ≡ b ( mod n )`$ .
+The below computational rules are worth mentioning (a, a1, b, b1, k all being integers):
+
+```math
+a ≡ b ( mod n ) <=> a + k ≡ b + k ( mod n )                                (1)
+a ≡ b ( mod n ) => a * k ≡ b * k ( mod n )                                 (2)
+gcd(k, n) = 1 and a * k ≡ b * k ( mod n ) => a ≡ b ( mod n )               (3)
+a * k ≡ b * k ( mod k* n ) => a ≡ b ( mod n )                              (4)
+a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 + a2 ≡ b1 + b2 ( mod n )     (5)
+a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 * a2 ≡ b1 * b2 ( mod n )     (6)
+```
+
+Another very important result is Fermat's Little theorem, for any `p`prime number we have, $`k^p ≡ k ( mod p )`$ .
+Because `gcd(p,k)=1` then wecan use (3) and end up with, $`k^(p-1) ≡ 1 ( mod p )`$ .
