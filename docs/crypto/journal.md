@@ -32,3 +32,12 @@
 
 ### 12 Sep 2025
 - playing with modular arithmetic laws in all three programming langs
+
+### 15 Sep 2025
+- one more cleaning [PR in pallas](https://github.com/txpipe/pallas/pull/704)
+
+### 16 Sep 2025
+- illustrative examples of modular arithmetic laws for big numbers in SageMath, Rust and Zig
+
+### 17 Sep 2025
+- learning about prime fields in the context of elliptic curves
