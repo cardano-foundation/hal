@@ -424,13 +424,72 @@ respect to the modulus `n` if and only if the following holds $`a mod n = b mod 
 The below computational rules are worth mentioning (a, a1, b, b1, k all being integers):
 
 ```math
-a ≡ b ( mod n ) <=> a + k ≡ b + k ( mod n )                                (1)
-a ≡ b ( mod n ) => a * k ≡ b * k ( mod n )                                 (2)
-gcd(k, n) = 1 and a * k ≡ b * k ( mod n ) => a ≡ b ( mod n )               (3)
-a * k ≡ b * k ( mod k* n ) => a ≡ b ( mod n )                              (4)
-a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 + a2 ≡ b1 + b2 ( mod n )     (5)
-a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 * a2 ≡ b1 * b2 ( mod n )     (6)
+a ≡ b ( mod n ) <=> a + k ( mod n ) ≡ b + k ( mod n )                                          (1)
+a ≡ b ( mod n ) => a * k ( mod n ) ≡ b * k ( mod n )                                           (2)
+gcd(k, n) = 1 and a * k ≡ b * k ( mod n ) => a ≡ b ( mod n )                                   (3)
+a * k ≡ b * k ( mod k* n ) => a ≡ b ( mod n )                                                  (4)
+a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 + a2 ( mod n ) ≡ b1 + b2 ( mod n )               (5)
+a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 * a2 ( mod n ) ≡ b1 * b2 ( mod n )               (6)
 ```
 
 Another very important result is Fermat's Little theorem, for any `p`prime number we have, $`k^p ≡ k ( mod p )`$ .
 Because `gcd(p,k)=1` then wecan use (3) and end up with, $`k^(p-1) ≡ 1 ( mod p )`$ .
+
+<details>
+<summary>SageMath</summary>
+
+```sagemath
+sage: a=ZZ(1)
+sage: b=ZZ(123456789123456790)
+sage: n=ZZ(123456789)
+sage: a == b % n
+True
+
+sage: k=ZZ(2^64)
+sage: k
+18446744073709551616
+sage: (a + k) % n == (b + k) % n     # (1)
+True
+sage: (a * k) % n == (b * k) % n     # (2)
+True
+
+sage: b=ZZ(123456789123456666)
+sage: a=ZZ(123456666)
+sage: a == b % n
+True
+sage: b.gcd(a)
+6
+sage: n.gcd(6)
+3
+sage: (a / 6) == (b / 6) % n
+False                                # (3) cond gcd (k,n) not satisfied
+
+sage: (a / 3) == (b / 3) % n
+False
+sage: (a / 3) == (b / 3) % (n / 3)   # (4)
+True
+
+sage: b1=ZZ(123456789123456666)
+sage: a == b1 % n
+True
+sage: b2 = ZZ(1728394923)
+sage: a == b2 % n
+True
+
+sage: (a1 + a1) % n == (b1+b2) % n    # (5)
+True
+sage: (a1 * a1) % n == (b1 * b2) % n  # (6)
+True
+
+sage: a = ZZ(123456666)
+sage: a ^ 17
+359540034851392415636875649242223891196568232949298123301070013683400624868887868465355045866752156320944896326030978154463931187039174656
+sage: # Little Fermat Theorem:
+sage: (a ^ 17) % 17
+14
+sage: a % 17
+14
+sage: (a ^ (17-1)) % 17
+1
+```
+</details>
