@@ -420,20 +420,25 @@ gcd(123456789123456789123456789,123)=3
 The base of it relies on Euclidean Division operation and observation that with selecting `n>=2`, we can group integers into classes:
 two integers are in the same class whenever their Euclidean Division by `n` gives the same remainder.
 Two numbers that are in the same class are called `congruent`. So, the integers `a` and `b` are congruent with
-respect to the modulus `n` if and only if the following holds $`a mod n = b mod n`$ . We write $`a ≡ b ( mod n )`$ .
-The below computational rules are worth mentioning (a, a1, b, b1, k all being integers):
+respect to the modulus `n` if and only if the following holds `a mod n = b mod n` . We write `a ≡ b ( mod n )` .
+The below computational rules are worth mentioning (`a`, `a1`, `b`, `b1`, `k` all being integers)
 
-```math
+```bash
 a ≡ b ( mod n ) <=> a + k ( mod n ) ≡ b + k ( mod n )                                          (1)
+
 a ≡ b ( mod n ) => a * k ( mod n ) ≡ b * k ( mod n )                                           (2)
+
 gcd(k, n) = 1 and a * k ≡ b * k ( mod n ) => a ≡ b ( mod n )                                   (3)
+
 a * k ≡ b * k ( mod k* n ) => a ≡ b ( mod n )                                                  (4)
+
 a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 + a2 ( mod n ) ≡ b1 + b2 ( mod n )               (5)
+
 a1 ≡ b1 ( mod n ) and a2 ≡ b2 ( mod n ) => a1 * a2 ( mod n ) ≡ b1 * b2 ( mod n )               (6)
 ```
 
 Another very important result is Fermat's Little theorem, for any `p`prime number we have, $`k^p ≡ k ( mod p )`$ .
-Because `gcd(p,k)=1` then wecan use (3) and end up with, $`k^(p-1) ≡ 1 ( mod p )`$ .
+Because `gcd(p,k)=1` then wecan use (3) and end up with, $`k^{p-1} ≡ 1 ( mod p )`$ .
 
 <details>
 <summary>SageMath</summary>
@@ -491,5 +496,137 @@ sage: a % 17
 14
 sage: (a ^ (17-1)) % 17
 1
+```
+</details>
+
+<details>
+<summary>Rust</summary>
+
+For Rust we are using once again [crypto-bigint](https://docs.rs/crypto-bigint/0.6.1/crypto_bigint/index.html).
+
+```rust
+$ cat rustScript
+#!/usr/bin/env rust-script
+
+//! ```cargo
+//! [dependencies]
+//! crypto-bigint = "0.6.1"
+//! ```
+
+use core::ops::{Rem};
+use crypto_bigint::{NonZero, U256, U2048};
+
+type CustomizedResult<T> = Result<T, Box<dyn std::error::Error>>;
+
+fn to_decimal_from_le(m: &[u8]) -> u128 {
+   m.into_iter().fold((0,0), |pair, elem| (pair.0 + 256_u128.pow(pair.1) * (elem.clone() as u128), pair.1 + 1)).0
+}
+
+fn main() -> CustomizedResult<()> {
+   let b = U256::from_str_radix_vartime("123456789123456790",10).unwrap();
+   let n = U256::from_str_radix_vartime("123456789",10).unwrap();
+   let a = b.rem(&NonZero::new(n).unwrap());
+   print!("({:?} mod {:?})={:?} should be 1\n", to_decimal_from_le(&b.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()), to_decimal_from_le(&a.to_le_bytes()) );
+
+   let k = U256::from_str_radix_vartime("18446744073709551616",10).unwrap();
+   let a = U256::from_str_radix_vartime("1",10).unwrap();
+   let left = a.add_mod(&k, &n);
+   let right = b.add_mod(&k, &n);
+   print!("(1) add_mod has limitation that pops up here: 'Assumes self + rhs as unbounded integer is < 2p.'\n");
+   print!("    THIS IS WRONG (a + k) mod n = {:?} (b + k) mod n = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+   print!("    a={:?},  b={:?}, k={:?}, n={:?} \n", to_decimal_from_le(&a.to_le_bytes()), to_decimal_from_le(&b.to_le_bytes()), to_decimal_from_le(&k.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()) );
+   print!("    as n < b by several orders of magnitude - the same as n < k we need to use 'rem' before adding to both b and k\n");
+   let k = k.rem(&NonZero::new(n).unwrap());
+   let b = b.rem(&NonZero::new(n).unwrap());
+   let left = a.add_mod(&k, &n);
+   let right = b.add_mod(&k, &n);
+   print!("    a <- a mod n ={:?},  b<- b mod ={:?}, k<- k mod ={:?}, n={:?} \n", to_decimal_from_le(&a.to_le_bytes()), to_decimal_from_le(&b.to_le_bytes()), to_decimal_from_le(&k.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()) );
+
+   print!("    NOW IT IS CORRECT (a + k) mod n = {:?} (b + k) mod n = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+
+   let left = a.mul_mod(&k, &NonZero::new(n).unwrap());
+   let right = b.mul_mod(&k, &NonZero::new(n).unwrap());
+   print!("(2) (a * k) mod n = {:?} (b * k) mod n = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+
+   let b = U256::from_str_radix_vartime("123456789123456666",10).unwrap();
+   let a = U256::from_str_radix_vartime("123456666",10).unwrap();
+   let a1 = b.rem(&NonZero::new(n).unwrap());
+   print!("({:?} mod {:?})={:?} should be {:?}\n", to_decimal_from_le(&b.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()), to_decimal_from_le(&a1.to_le_bytes()), to_decimal_from_le(&a.to_le_bytes()) );
+
+   let bdiv3 = b.div_rem(&NonZero::new(U256::from(3u8)).unwrap()).0;
+   let adiv3 = a.div_rem(&NonZero::new(U256::from(3u8)).unwrap()).0;
+   let a1div3 = bdiv3.rem(&NonZero::new(n).unwrap());
+   print!("(3) ({:?} mod {:?})={:?} should not be {:?}\n", to_decimal_from_le(&bdiv3.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()), to_decimal_from_le(&a1div3.to_le_bytes()), to_decimal_from_le(&adiv3.to_le_bytes()) );
+
+   let ndiv3 = n.div_rem(&NonZero::new(U256::from(3u8)).unwrap()).0;
+   let a1div3 = bdiv3.rem(&NonZero::new(ndiv3).unwrap());
+   print!("(4) ({:?} mod {:?})={:?} should be {:?}\n", to_decimal_from_le(&bdiv3.to_le_bytes()), to_decimal_from_le(&ndiv3.to_le_bytes()), to_decimal_from_le(&a1div3.to_le_bytes()), to_decimal_from_le(&adiv3.to_le_bytes()) );
+
+   let b1 = U256::from_str_radix_vartime("123456789123456666",10).unwrap();
+   let b2 = U256::from_str_radix_vartime("1728394923",10).unwrap();
+   let a1 = b1.rem(&NonZero::new(n).unwrap());
+   let a2 = b2.rem(&NonZero::new(n).unwrap());
+   print!("({:?} mod {:?})={:?} should be {:?}\n", to_decimal_from_le(&b1.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()), to_decimal_from_le(&a1.to_le_bytes()), to_decimal_from_le(&a.to_le_bytes()) );
+   print!("({:?} mod {:?})={:?} should be {:?}\n", to_decimal_from_le(&b2.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()), to_decimal_from_le(&a2.to_le_bytes()), to_decimal_from_le(&a.to_le_bytes()) );
+
+   let left = a1.add_mod(&a1, &n);
+   let right = b1.add_mod(&b2, &n);
+   print!("(5) THIS IS WRONG -> (a1 + a1) mod n = {:?} (b1 + b2) mod n = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+   print!("    Once again, like in (1), add_mod limitation with added numbers with respect to modulus\n");
+   print!("    a1={:?},  a2={:?}, b1={:?}, b2={:?}, n={:?} \n", to_decimal_from_le(&a1.to_le_bytes()), to_decimal_from_le(&a2.to_le_bytes()), to_decimal_from_le(&b1.to_le_bytes()), to_decimal_from_le(&b2.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()) );
+   let a1 = a1.rem(&NonZero::new(n).unwrap());
+   let a2 = a2.rem(&NonZero::new(n).unwrap());
+   let b1 = b1.rem(&NonZero::new(n).unwrap());
+   let b2 = b2.rem(&NonZero::new(n).unwrap());
+   let left = a1.add_mod(&a1, &n);
+   let right = b1.add_mod(&b2, &n);
+   print!("    a1 <- a1 mod n ={:?}, a2 <- a2 mod n ={:?},  b1<- b1 mod ={:?}, b2<- b2 mod ={:?}, n={:?} \n", to_decimal_from_le(&a1.to_le_bytes()), to_decimal_from_le(&a2.to_le_bytes()), to_decimal_from_le(&b1.to_le_bytes()), to_decimal_from_le(&b2.to_le_bytes()), to_decimal_from_le(&n.to_le_bytes()) );
+   print!("    NOW IT IS CORRECT (a1 + a2) mod n = {:?} (b1 + b2) mod n = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+
+   let left = a1.mul_mod(&a1, &NonZero::new(n).unwrap());
+   let right = b1.mul_mod(&b2, &NonZero::new(n).unwrap());
+   print!("(6) (a1 * a1) mod n = {:?} (b1 * b2) mod n = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+
+   let a = U2048::from_str_radix_vartime("123456666",10).unwrap();
+   let apow17 = U2048::from_str_radix_vartime("359540034851392415636875649242223891196568232949298123301070013683400624868887868465355045866752156320944896326030978154463931187039174656",10).unwrap();
+   let seventeen = NonZero::new(U2048::from(17u16)).unwrap();
+   let left = apow17.rem(&seventeen);
+   let right = a.rem(&seventeen);
+   print!("(Little Fermat Theorem) (a ^ 17) mod 17 = {:?} should be a mod 17 = {:?}\n", to_decimal_from_le(&left.to_le_bytes()), to_decimal_from_le(&right.to_le_bytes()) );
+
+   let apow16 = U2048::from_str_radix_vartime("2912277210299785802063338153342192888932933220060374247438935485941282626803544722853240228168417866726976867543393551179034198016",10).unwrap();
+   let left = apow16.rem(&seventeen);
+   print!("(Little Fermat Theorem) (a ^ (17 - 1)) mod 17 = {:?} should be 1\n", to_decimal_from_le(&left.to_le_bytes()) );
+
+   Ok(())
+}
+```
+
+After running we see we are consistent with SageMath results
+As underlined above one needs to take care of limitations of `add_mod`.
+
+```bash
+$ rust-script rustScript
+(123456789123456790 mod 123456789)=1 should be 1
+(1) add_mod has limitation that pops up here: 'Assumes self + rhs as unbounded integer is < 2p.'
+    THIS IS WRONG (a + k) mod n = 18446744073586094828 (b + k) mod n = 18570200862709551617
+    a=1,  b=123456789123456790, k=18446744073709551616, n=123456789
+    as n < b by several orders of magnitude - the same as n < k we need to use 'rem' before adding to both b and k
+    a <- a mod n =1,  b<- b mod =1, k<- k mod =93442732, n=123456789
+    NOW IT IS CORRECT (a + k) mod n = 93442733 (b + k) mod n = 93442733
+(2) (a * k) mod n = 93442732 (b * k) mod n = 93442732
+(123456789123456666 mod 123456789)=123456666 should be 123456666
+(3) (41152263041152222 mod 123456789)=82304485 should not be 41152222
+(4) (41152263041152222 mod 41152263)=41152222 should be 41152222
+(123456789123456666 mod 123456789)=123456666 should be 123456666
+(1728394923 mod 123456789)=123456666 should be 123456666
+(5) THIS IS WRONG -> (a1 + a1) mod n = 123456543 (b1 + b2) mod n = 123456790728394800
+    Once again, like in (1), add_mod limitation with added numbers with respect to modulus
+    a1=123456666,  a2=123456666, b1=123456789123456666, b2=1728394923, n=123456789
+    a1 <- a1 mod n =123456666, a2 <- a2 mod n =123456666,  b1<- b1 mod =123456666, b2<- b2 mod =123456666, n=123456789
+    NOW IT IS CORRECT (a1 + a2) mod n = 123456543 (b1 + b2) mod n = 123456543
+(6) (a1 * a1) mod n = 15129 (b1 * b2) mod n = 15129
+(Little Fermat Theorem) (a ^ 17) mod 17 = 14 should be a mod 17 = 14
+(Little Fermat Theorem) (a ^ (17 - 1)) mod 17 = 1 should be 1
 ```
 </details>
