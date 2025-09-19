@@ -440,7 +440,7 @@ the way normal people actually behave.
 
 [CodeRabbit]: https://www.coderabbit.ai/
 [Gerrit]: https://www.gerritcodereview.com/
-[Cram]: https://bitheap.org/cram/>
+[Cram]: https://bitheap.org/cram/
 [37sig]: https://basecamp.com/handbook/how-we-work
 [Async]: https://handbook.gitlab.com/handbook/company/culture/all-remote/non-linear-workday/
 [Core]: https://thecoreprotocols.org/
