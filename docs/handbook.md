@@ -193,7 +193,7 @@ discussed, clarified, changed or improved.
 
 - What does it mean for a team member to be "in charge" of a product?
 - Shouldn't every project have a person in charge?
-- How do we know what we need to do and/or whether we what we have done is good?
+- How do we know what we need to do and/or whether what we have done is good?
 - Wouldn't it be beneficial to have smaller, more frequent releases and to
   gather feedback more early, if possible from users?
 - Should we add User Stories?
