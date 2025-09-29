@@ -41,3 +41,6 @@
 
 ### 17 Sep 2025
 - learning about prime fields in the context of elliptic curves
+
+### 29 Sep 2025
+- practical prime fields arithmetics in Sage
