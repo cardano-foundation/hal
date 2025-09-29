@@ -630,3 +630,153 @@ $ rust-script rustScript
 (Little Fermat Theorem) (a ^ (17 - 1)) mod 17 = 1 should be 1
 ```
 </details>
+
+<details>
+<summary>Zig</summary>
+
+We are going to use `Managed` arbitrary big int here.
+
+```zig
+$ cat zigScript.zig
+const std = @import("std");
+const Managed = std.math.big.int.Managed;
+
+
+pub fn main() !void {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator1 =  gpa.allocator();
+    const allocator2 =  gpa.allocator();
+    const allocator3 =  gpa.allocator();
+    const allocator4 =  gpa.allocator();
+    const allocator5 =  gpa.allocator();
+    const allocator6 =  gpa.allocator();
+    const allocator7 =  gpa.allocator();
+    const allocator8 =  gpa.allocator();
+    const allocator9 =  gpa.allocator();
+    const allocator10 =  gpa.allocator();
+    const allocator11 =  gpa.allocator();
+    const allocator12 =  gpa.allocator();
+    const allocator13 =  gpa.allocator();
+    const allocator14 =  gpa.allocator();
+
+    var b = try Managed.initSet(allocator1, 123456789123456790);
+    defer b.deinit();
+    var n = try Managed.initSet(allocator2, 123456789);
+    defer n.deinit();
+    var r = try Managed.init(allocator3);
+    defer r.deinit();
+    var q = try Managed.init(allocator4);
+    defer q.deinit();
+
+    try Managed.divFloor(&q,&r,&b,&n);
+
+    std.debug.print("(0) a mod n = b\n", .{});
+    std.debug.print("({d} mod {d}) = {d} should be 1\n\n", .{b,n,r});
+
+    var k = try Managed.initSet(allocator5, 18446744073709551616);
+    defer k.deinit();
+    var left = try Managed.init(allocator6);
+    defer left.deinit();
+    var right = try Managed.init(allocator7);
+    defer right.deinit();
+
+    std.debug.print("(1) when (0) holds then (a + k) mod n = (b + k) mod n\n", .{});
+    try Managed.add(&left,&b,&k);
+    try Managed.divFloor(&q,&r,&left,&n);
+    std.debug.print("left: ({d} + {d}) mod {d} = {d}\n", .{b,k,n,r});
+
+    var one = try Managed.initSet(allocator8, 1);
+    defer one.deinit();
+    try Managed.add(&right,&one,&k);
+    try Managed.divFloor(&q,&r,&right,&n);
+    std.debug.print("right: ({d} + {d}) mod {d} = {d}\n\n", .{one,k,n,r});
+
+    std.debug.print("(2) when (0) holds then (a * k) mod n = (b * k) mod n\n", .{});
+    try Managed.mul(&left,&b,&k);
+    try Managed.divFloor(&q,&r,&left,&n);
+    std.debug.print("left: ({d} * {d}) mod {d} = {d}\n", .{b,k,n,r});
+
+    try Managed.mul(&right,&one,&k);
+    try Managed.divFloor(&q,&r,&right,&n);
+    std.debug.print("right: ({d} * {d}) mod {d} = {d}\n\n", .{one,k,n,r});
+
+    try b.set(123456789123456666);
+    try k.set(123456666);
+    try Managed.divFloor(&q,&r,&b,&n);
+    std.debug.print("{d} mod {d}={d} should be {d}\n", .{b,n,r,k});
+    try Managed.gcd(&r,&b,&k);
+    std.debug.print("gcd({d},{d})={d}\n", .{b,k,r});
+    var six = try Managed.initSet(allocator8, 6);
+    defer six.deinit();
+    try Managed.divFloor(&left,&r,&b,&six);
+    try Managed.divFloor(&q,&r,&left,&n);
+    std.debug.print("(3) ({d} / {d}) mod {d} = {d} mod {d} = {d} is not the same as ", .{b,six,n,left,n,r});
+    try Managed.divFloor(&right,&r,&k,&six);
+    try Managed.divFloor(&q,&r,&right,&n);
+    std.debug.print("({d} / {d}) mod {d} = {d} mod {d} = {d} \n\n", .{k,six,n,right,n,r});
+
+    var div = try Managed.init(allocator9);
+    defer div.deinit();
+    try Managed.divFloor(&div,&r,&n,&six);
+    try Managed.divFloor(&q,&r,&left,&div);
+    try Managed.gcd(&r,&n,&six);
+    std.debug.print("gcd({d},{d})={d}\n", .{n,six,r});
+    std.debug.print("({d} / {d}) mod ({d} / {d}) = {d} mod {d} = {d} is not the same as ", .{b,six,n,six,left,div,r});
+    try Managed.divFloor(&q,&r,&right,&div);
+    std.debug.print("({d} / {d}) mod ({d} / {d})= {d} mod {d} = {d} \n\n", .{k,six,n,six,right,div,r});
+
+    var three = try Managed.initSet(allocator10, 3);
+    defer three.deinit();
+    try Managed.divFloor(&div,&r,&n,&three);
+    try Managed.divFloor(&left,&r,&b,&three);
+    try Managed.divFloor(&q,&r,&left,&div);
+    std.debug.print("(4) ({d} / {d}) mod ({d} / {d}) = {d} mod {d} = {d} is the same as ", .{b,three,n,three,left,div,r});
+    try Managed.divFloor(&right,&r,&k,&three);
+    try Managed.divFloor(&q,&r,&right,&div);
+    std.debug.print("({d} / {d}) mod ({d} / {d})= {d} mod {d} = {d} \n\n", .{k,three,n,three,right,div,r});
+
+    std.debug.print("(5) when a1 = b1 % n AND a1 = b1 % n then (a1 + a2) % n == (b1 + b2) % n \n", .{});
+    var b1 = try Managed.initSet(allocator11, 1728394923);
+    defer b1.deinit();
+    var rem = try Managed.init(allocator12);
+    defer rem.deinit();
+    try Managed.divFloor(&q,&r,&b,&n);
+    std.debug.print("({d} mod {d}) = {d} and ", .{b,n,r});
+    try Managed.divFloor(&q,&rem,&b1,&n);
+    std.debug.print("({d} mod {d}) = {d}\n", .{b1,n,rem});
+
+    var two = try Managed.initSet(allocator13, 2);
+    defer two.deinit();
+    try Managed.mul(&left,&rem,&two);
+    try Managed.divFloor(&q,&r,&left,&n);
+    std.debug.print("left: ({d} + {d}) mod {d} = {d}\n", .{rem,rem,n,r});
+    try Managed.add(&right,&b,&b1);
+    try Managed.divFloor(&q,&r,&right,&n);
+    std.debug.print("right: ({d} + {d}) mod {d} = {d}\n\n", .{b,b1,n,r});
+
+    std.debug.print("(6) when a1 = b1 % n AND a1 = b1 % n then (a1 * a2) % n == (b1 * b2) % n \n", .{});
+    try Managed.pow(&left,&rem,2);
+    try Managed.divFloor(&q,&r,&left,&n);
+    std.debug.print("left: ({d} * {d}) mod {d} = {d}\n", .{q,q,n,r});
+    try Managed.mul(&right,&b,&b1);
+    try Managed.divFloor(&q,&r,&right,&n);
+    std.debug.print("right: ({d} * {d}) mod {d} = {d}\n\n", .{b,b1,n,r});
+
+    std.debug.print("Little Fermat Theorem \n", .{});
+    try Managed.pow(&left,&rem,17);
+    var seventeen = try Managed.initSet(allocator14, 17);
+    defer seventeen.deinit();
+    try Managed.divFloor(&q,&r,&left,&seventeen);
+    std.debug.print("({d} ^ {d}) mod {d} = {d}\n", .{rem,seventeen,seventeen,r});
+    try Managed.pow(&left,&rem,16);
+    try Managed.divFloor(&q,&r,&left,&seventeen);
+    std.debug.print("({d} ^ ({d} - 1) ) mod {d} = {d}\n", .{rem,seventeen,seventeen,r});
+}
+```
+
+Running the script gives immediately corrrect results
+```bash
+$ zig run zigScript.zig
+
+```
+</details>
