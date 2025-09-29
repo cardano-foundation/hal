@@ -93,7 +93,8 @@ We then refine each goal into more or less concrete deliverables we think are ne
 
 #### Anti CLI on mainnet
 
-* Upgrade/improve [MPFS smart contract](https://app.radicle.xyz/nodes/seed.hydra.bzh/rad:zpZ4szHxvnyVyDiy2acfcVEzxza9/tree/on_chain/validators/cage.ak) to remove shortcuts: refund "deposit", improve security, possibly even audit the contract
+* Upgrade/improve [MPFS smart contract](https://app.radicle.xyz/nodes/seed.hydra.bzh/rad:zpZ4szHxvnyVyDiy2acfcVEzxza9/tree/on_chain/validators/cage.ak) to remove shortcuts:
+  * allow migrations, refund change-request deposits, track time, improve security, possibly even audit the contract
 * Build and share high-quality web site, should have:
   * Good UI and UX
   * Clear instructions/tools on how to get started with `anti cli`
@@ -118,13 +119,14 @@ We then refine each goal into more or less concrete deliverables we think are ne
 #### Handover Agent/Oracle run to a dedicated organisation
 
 * Package oracle service and container to run with wallet and keys
-  * Include setup instructiosn
+  * Include setup instructions
   * Migration procedure from Preprod to Mainnet
 
   Stakeholders: Infra team @CF, PRAGMA?
 * Package agent as a service
   * Requires handing over keys and pwd access to AT infrastructure
 * Allow migration of smart contracts on-chain
+  * pre-requisite to any future change
 
 #### OSS/HAL teams collaboration topics
 
