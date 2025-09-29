@@ -12,10 +12,10 @@ prioritize tasks for team members to pick up, and ensure everyone is
 aligned and focused on the priorities for the week and the overall
 goals of the team.
 
-Meeting agenda is inspired by [Plan-Do-Check-Act]() process from
-Demming, the **Do** part being the work done over the past week.
+## How?
 
-* **Check**: 5’ presentation + Q&A showcasing what's been accomplished in the past week
-  Also reconcile with last week's plans and https://github.com/orgs/cardano-foundation/projects/26/views/1
-* **Act**: Identify corrective actions to the process/products
-* **Plan**: decide what we’ll be working on next week
+* (_optional_): Go through _issues_ closed and/or worked on in the past week
+  * possibly show what everyone worked on
+* Allocate issues for the next week
+  * Ensure those issues are tagged with week number (eg. `w32`)
+* (_optional_): discuss topics
