@@ -194,7 +194,7 @@ We then moved on to discuss more specifically each of the selected topics:
 | Who                    | What                                                                        |
 |------------------------|-----------------------------------------------------------------------------|
 | @abailly               | Hire an additional person to join team as a PO                              |
-| @paweljakubas/@paolino | Define/clarify how Rad interacts with GH in the [handbook](handbook.md)     |
+| @paweljakubas/@paolino | Since it was decided to keep both Radicle and GitHub, define clearly in the [handbook](handbook.md) when and how to use each, and how they interact |
 | @abailly               | Provide alternative install/build instructions beside nix for Linux and Mac |
 | all                    | Update weekly meeting process to be driven by past and future _issues_      |
 |                        |                                                                             |
