@@ -1,5 +1,8 @@
 ## Pawel Jakubas's daily learning journal
 
+<details>
+<summary>Month 1 - September 2025</summary>
+
 ### 1 Sep 2025
 - sorting out compilation problems and cleaning [KES PR to pallas](https://github.com/txpipe/pallas/pull/694)
 - adding [gitbook learning structure](https://github.com/cardano-foundation/hal/blob/main/docs/crypto/gitbook.md)
@@ -40,7 +43,20 @@
 - illustrative examples of modular arithmetic laws for big numbers in SageMath, Rust and Zig
 
 ### 17 Sep 2025
-- learning about prime fields in the context of elliptic curves
+- learning about prime fields and groups in the context of elliptic curves
 
 ### 29 Sep 2025
-- practical prime fields arithmetics in Sage
+- practical prime fields and group arithmetics in SageMath
+
+### 30 Sep 2025
+- first look and playing with [BLS voting in Leios](https://github.com/input-output-hk/ouroboros-leios/blob/d5f1a9bc940e69f406c3e25c0d7d9aa58cf701f8/crypto-benchmarks.rs/Specification.md)
+
+</details>
+
+<details>
+<summary>Month 2 - October 2025</summary>
+
+### 1 Oct 2025
+-  More playing with [BLS voting in Leios](https://github.com/input-output-hk/ouroboros-leios/blob/d5f1a9bc940e69f406c3e25c0d7d9aa58cf701f8/crypto-benchmarks.rs/Specification.md)
+
+</details>
