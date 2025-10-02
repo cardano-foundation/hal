@@ -7,6 +7,13 @@ Each concept is illustrated using SageMath, Rust and Zig programming languages. 
 0. [How to run code](#how-to-run-code)
 1. [Useful facts from number theory](#useful-facts-from-number-theory)
 
+# Books
+
+## Number theory, groups, fields and elliptic curves
+1. An illustrated theory of numbers, Martin H. Weissman, AMS 2020
+2. Computational number theory, Abhijt Das, CRC Press 2013
+3. Elliptic Tales: Curves, Counting, and Number Theory, Avner Ash and Robert Gross, Princeton University Press 2012
+
 ## How to run code
 
 <details>
