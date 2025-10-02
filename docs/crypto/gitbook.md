@@ -855,3 +855,52 @@ Addition and multiplication matrices are symmetric as the operations are commuta
 
 Now let's solve the same equation in modulo 11 so when n is prime number. In that case each number 1,2,...,10 are co-prime with 11.
 In that case we expect each number to have multiplicative inverse, so in the multiplicative matrix in a given row we will find 1.
+
+```pen
+addition mod 11                                    multiplication mod 11
+ 0  1  2  3  4  5  6  7  8  9 10                   1  2  3  4  5  6  7  8  9 10
+ 1  2  3  4  5  6  7  8  9 10  0                   2  4  6  8 10  1  3  5  7  9
+ 2  3  4  5  6  7  8  9 10  0  1                   3  6  9  1  4  7 10  2  5  8
+ 3  4  5  6  7  8  9 10  0  1  2                   4  8  1  5  9  2  6 10  3  7
+ 4  5  6  7  8  9 10  0  1  2  3                   5 10  4  9  3  8  2  7  1  6
+ 5  6  7  8  9 10  0  1  2  3  4                   6  1  7  2  8  3  9  4 10  5
+ 6  7  8  9 10  0  1  2  3  4  5                   7  3 10  6  2  9  5  1  8  4
+ 7  8  9 10  0  1  2  3  4  5  6                   8  5  2 10  7  4  1  9  6  3
+ 8  9 10  0  1  2  3  4  5  6  7                   9  7  5  3  1 10  8  6  4  2
+ 9 10  0  1  2  3  4  5  6  7  8                   10  9  8  7  6  5  4  3  2  1
+10  0  1  2  3  4  5  6  7  8  9
+
+Let's solve in mod 11:
+19(2x + 7) − 6 ≡ 2x + 6
+19*2x + 19*7 - 6 ≡ 2x + 6
+38x + 133 - 6 ≡ 2x + 6                     # 38 mod 11 = 5; 133 mod 11 = 1
+5x + 1 - 6 ≡ 2x + 6
+5x + 1 - 6 + 6 ≡ 2x + 6 + 6                # applying law (1)
+5x + 1 ≡ 2x + 1                            # 12 mod 11 = 1
+5x - 2x ≡ 0
+3x ≡ 0
+3 * 4 x = 0 * 4                            # 3 has multiplicative inverse 4
+x ≡ 0
+So we have solution {.., -22, -11, 0, 11, 22, ...}
+```
+
+Let's check the result in `SageMath`:
+
+<details>
+<summary>SageMath</summary>
+
+```sagemath
+sage: Z11=Integers(11)
+sage: Z11(5)+Z11(10)
+4
+sage: x=Z11(0)
+sage: Z11(19)*(Z11(2)*x + Z11(7)) - Z11(6) == Z11(2)*x + Z11(6)
+True
+sage: x=Z11(11)
+sage: Z11(19)*(Z11(2)*x + Z11(7)) - Z11(6) == Z11(2)*x + Z11(6)
+True
+sage: x=Z11(1)
+sage: Z11(19)*(Z11(2)*x + Z11(7)) - Z11(6) == Z11(2)*x + Z11(6)
+False
+```
+</details>
