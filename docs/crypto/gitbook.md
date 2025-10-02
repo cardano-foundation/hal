@@ -818,3 +818,40 @@ Little Fermat Theorem
 (123456666 ^ (17 - 1) ) mod 17 = 1
 ```
 </details>
+
+It is very important to understand how modular arithmetics changes the solution of equations and polynomial arithmetic.
+Let's look at addition and multiplication tables for modulo 7 and modulo 8.
+
+```pen
+addition mod 8      multiplication mod 8
+0 1 2 3 4 5 6 7     1 2 3 4 5 6 7
+1 2 3 4 5 6 7 0     2 4 6 0 2 4 6
+2 3 4 5 6 7 0 1     3 6 1 4 7 2 5
+3 4 5 6 7 0 1 2     4 0 4 0 4 0 4
+4 5 6 7 0 1 2 3     5 2 7 4 1 6 3
+5 6 7 0 1 2 3 4     6 4 2 0 6 4 2
+6 7 0 1 2 3 4 5     7 6 5 4 3 2 1
+7 0 1 2 3 4 5 6
+
+Let's solve in mod 8:
+19(2x + 7) − 6 ≡ 2x + 6
+19*2x + 19*7 - 6 ≡ 2x + 6
+38x + 133 - 6 ≡ 2x + 6              # 133 mod 8 = 5
+6x + 5 - 6 ≡ 2x + 6
+6x + 5 - 6 + 6 ≡ 2x + 6 + 6         # see law (1)
+6x + 5 ≡ 2x + 4                     # 12 mod 8 = 4
+6x - 2x + 5 - 5 ≡ 2x - 2x + 4 - 5
+4x ≡ 7                              # -1 mod 8 = 7
+Now we do not have multiplication inverse for 4, ie. we cannot divide by 4 in modulo 8, ie. solve this equation
+We have only multiplication inverse for 1 which is 1; 3 which is 3; 5 which is 5, and 7 which is 7.
+```
+
+**Important fact**:
+In modulo `n` have multiplication inverses only for congruence groups denoted by `r` when `r` and `n` are **co-prime**, ie.,  `gcd(r,n) = 1`.
+In case of modulo 8, r = 1, 3, 5, 7. Not for 2, 4, and 6.
+
+**Important observation**:
+Addition and multiplication matrices are symmetric as the operations are commutative, ie. `a * b ≡ b * a` and `a + b ≡ b + a`
+
+Now let's solve the same equation in modulo 11 so when n is prime number. In that case each number 1,2,...,10 are co-prime with 11.
+In that case we expect each number to have multiplicative inverse, so in the multiplicative matrix in a given row we will find 1.
