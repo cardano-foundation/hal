@@ -59,4 +59,19 @@
 ### 1 Oct 2025
 -  More playing with [BLS voting in Leios](https://github.com/input-output-hk/ouroboros-leios/blob/d5f1a9bc940e69f406c3e25c0d7d9aa58cf701f8/crypto-benchmarks.rs/Specification.md)
 
+### 2 Oct 2025
+- pen and pencil practising for field and group algebra
+
+### 6 Oct 2025
+- Week#1 ZK bootcamp (practical modular arithemtics take in the context of elliptic curve)
+
+### 9 Oct 2025
+- Week#1 ZK bootcamp office hours (practical modular arithemtics take in the context of elliptic curve)
+
+### 10 Oct 2025
+- Week#1 ZK bootcamp homework (practical modular arithemtics take in the context of elliptic curve)
+
+### 13 Oct 2025
+- Week#2 ZK bootcamp (practical group/field arithemtics take in the context of elliptic curve)
+
 </details>
