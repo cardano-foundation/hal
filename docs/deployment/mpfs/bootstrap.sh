@@ -25,5 +25,5 @@ curl --proto '=https' --tlsv1.2 -sSf \
 
 export PATH=$PATH:$(pwd)/bin
 
-cd $MPFS_DIR
-mithril-client cardano-db download --include-ancillary $SNAPSHOT_DIGEST
+mkdir -p $MPFS_DIR
+(cd $MPFS_DIR && mithril-client cardano-db download --include-ancillary $SNAPSHOT_DIGEST)

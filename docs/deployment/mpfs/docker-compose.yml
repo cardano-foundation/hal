@@ -8,7 +8,7 @@ services:
     volumes:
       - ${MPFS_DIR}/db:/data
       - ${MPFS_DIR}/ipc:/ipc
-      - ${MPFS_DIR}/configs:/configs
+      - ./configs:/configs
     restart: on-failure
     logging:
       driver: "json-file"
@@ -40,7 +40,7 @@ services:
     restart: always
     volumes:
       - ${MPFS_DIR}/ipc:/ipc
-      - ${MPFS_DIR}/configs:/node/configs
+      - ./configs:/node/configs
 
     command:
       - --node-socket
