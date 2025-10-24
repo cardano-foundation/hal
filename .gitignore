@@ -1,5 +1,5 @@
 *~
 .DS_Store
-docs/deployment/mpfs/bin
-docs/deployment/moog/oracle/oracle.json
-docs/deployment/moog/oracle/secrets.yaml
+docs/deployment/moog/agent/agent.json
+docs/deployment/moog/agent/secrets.yaml
+docs/deployment/moog/agent/docker-config.json
