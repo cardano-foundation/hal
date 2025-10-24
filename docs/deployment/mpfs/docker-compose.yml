@@ -1,0 +1,139 @@
+services:
+
+  cardano-node-preprod:
+    container_name: cardano-node-preprod
+    image: ghcr.io/intersectmbo/cardano-node:10.5.1
+    environment:
+      CARDANO_NODE_SOCKET_PATH: /ipc/node-socket
+    volumes:
+      - ${NODE_DIR}/db:/data
+      - ${NODE_DIR}/ipc:/ipc
+      - ${NODE_DIR}/configs:/configs
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        compress: "true"
+        max-file: "10"
+        max-size: "50m"
+    command: >
+      run --topology /configs/topology.json
+        --database-path /data
+        --socket-path /ipc/node.socket
+        --config /configs/config.json
+        --port 3000
+        --host-addr 0.0.0.0
+        +RTS -N -A16m -qg -qb -RTS
+    networks:
+      - cardano-node-preprod
+
+  ogmios-preprod:
+    image: cardanosolutions/ogmios:v6.14.0
+    depends_on:
+      - cardano-node-preprod
+    container_name: ogmios-preprod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    restart: always
+    volumes:
+      - ${NODE_DIR}/ipc:/ipc
+      - ${NODE_DIR}/configs:/node/configs
+
+    command:
+      - --node-socket
+      - /ipc/node.socket
+      - --node-config
+      - /node/configs/config.json
+      - --host
+      - "0.0.0.0"
+    networks:
+      - ogmios-preprod # serve on 1337
+
+  yaci-store-preprod:
+    image: bloxbean/yaci-store:2.0.0-beta4
+    container_name: yaci-store-preprod
+    depends_on:
+      - cardano-node-preprod
+      - yaci-store-db-preprod
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:postgresql://yaci-store-db-preprod:5432/yaci_store?currentSchema=utxo_indexer}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+
+    volumes:
+      - ${NODE_DIR}/yaci-store/logs:/app/logs/
+      - ${NODE_DIR}/application.properties:/app/config/application.properties
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "50"
+    restart: always
+
+    networks:
+       - cardano-node-preprod
+       - yaci-store-preprod # serve on 8080
+       - yaci-store-db-preprod # connect to the db
+
+  yaci-store-db-preprod:
+    image: postgres:17.4
+    container_name: yaci-store-db-preprod
+    environment:
+      - POSTGRES_DB=yaci_store
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+    volumes:
+      - ${NODE_DIR}/yaci-store/db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U yaci -d yaci_store'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "100"
+    networks:
+      - yaci-store-db-preprod # serve on 5432
+
+  mpfs:
+    image: ghcr.io/cardano-foundation/mpfs/mpfs:v1.1.0
+
+    command:
+      - --port
+      - "3000"
+      - --provider
+      - yaci
+      - --yaci-store-host
+      - http://yaci-store-preprod:8080
+      - --ogmios-host
+      - "http://ogmios-preprod:1337"
+      - --database-path
+      - /data/mpfs.db
+      - --since-slot
+      - "94898393"
+      - --since-block-id
+      - "ef94934f8eb129ebf07eeaab007b81ecb1bc58b121d19ac0ffe81f928bf56cc1"
+    networks:
+      - ogmios-preprod
+      - yaci-store-preprod
+    depends_on:
+      - ogmios-preprod
+      - yaci-store-preprod
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    volumes:
+      - ${NODE_DIR}/mpfs:/data
+
+networks:
+    cardano-node-preprod:
+    ogmios-preprod:
+    yaci-store-preprod:
+    yaci-store-db-preprod:
