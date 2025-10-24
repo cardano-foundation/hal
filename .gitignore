@@ -1,3 +1,5 @@
 *~
 .DS_Store
 docs/deployment/mpfs/bin
+docs/deployment/moog/oracle/oracle.json
+docs/deployment/moog/oracle/secrets.yaml
