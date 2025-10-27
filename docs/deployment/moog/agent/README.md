@@ -6,7 +6,7 @@
 git clone https://github.com/cardano-foundation/hal.git
 cd hal/docs/deployment/moog/agent
 # copy the secrets
-MOOG_VERSION=v0.3.2.0 docker compose up -d
+MOOG_VERSION=v0.3.3.0 docker compose up -d
 ```
 
 
