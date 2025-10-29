@@ -5,10 +5,9 @@
 ```bash
 git clone https://github.com/cardano-foundation/hal.git
 cd hal/docs/deployment/moog/oracle
-# copy the secrets
-MOOG_VERSION=v0.3.2.0 docker compose up -d
+# copy the secrets in the current dir
+docker compose up -d
 ```
-
 
 ## Secrets
 
