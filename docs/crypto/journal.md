@@ -72,6 +72,30 @@
 - Week#1 ZK bootcamp homework (practical modular arithemtics take in the context of elliptic curve)
 
 ### 13 Oct 2025
-- Week#2 ZK bootcamp (practical group/field arithemtics take in the context of elliptic curve)
+- Week#2 ZK bootcamp (toy elliptic curves - symmetry considerations)
+
+### 16 Oct 2025
+- Week#2 ZK bootcamp homework (toy elliptic curves - symmetry considerations)
+
+### 20 Oct 2025
+- Week#3 ZK bootcamp (properties of real elliptic curves and how we can use them)
+
+### 24 Oct 2025
+- Week#3 ZK bootcamp homework (practical properties of real elliptic curves and how we can use them)
+
+### 27 Oct 2025
+- Week#4 ZK bootcamp (real world elliptic curve - secp256k1 curve)
+
+### 30 Oct 2025
+- Week#4 ZK bootcamp homework (playing with secp256k1 elliptic curve)
+
+</details>
+
+<details>
+<summary>Month 3 - November 2025</summary>
+
+### 3 Nov 2025
+- Implementing ECDSA from scratch using SageMath
+- Week#5 ZK bootcamp (mult/add of BN128 in solidity and understanding zk problem from computational point of view)
 
 </details>
