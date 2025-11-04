@@ -98,4 +98,7 @@
 - Implementing ECDSA from scratch using SageMath
 - Week#5 ZK bootcamp (mult/add of BN128 in solidity and understanding zk problem from computational point of view)
 
+### 4 Nov 2025
+- Implement
+
 </details>

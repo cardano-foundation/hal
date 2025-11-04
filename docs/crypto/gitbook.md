@@ -904,3 +904,89 @@ sage: Z11(19)*(Z11(2)*x + Z11(7)) - Z11(6) == Z11(2)*x + Z11(6)
 False
 ```
 </details>
+
+Now, when we know how to make modulus operations can define toy elliptic curve in
+`Sagemath`. It is going to have equation:
+
+```
+y^2 == x^3 + 2x + 4
+```
+
+and be modulus 13. The corresponding multiplication and addition tables for modulus 13 are following:
+
+```pen
+addition mod 13                                    multiplication mod 13
+ 0  1  2  3  4  5  6  7  8  9 10 11 12            1  2  3  4  5  6  7  8  9 10 11 12
+ 1  2  3  4  5  6  7  8  9 10 11 12  0            2  4  6  8 10 12  1  3  5  7  9 11
+ 2  3  4  5  6  7  8  9 10 11 12  0  1            3  6  9 12  2  5  8 11  1  4  7 10
+ 3  4  5  6  7  8  9 10 11 12  0  1  2            4  8 12  3  7 11  2  6 10  1  5  9
+ 4  5  6  7  8  9 10 11 12  0  1  2  3            5 10  2  7 12  4  9  1  6 11  3  8
+ 5  6  7  8  9 10 11 12  0  1  2  3  4            6 12  5 11  4 10  3  9  2  8  1  7
+ 6  7  8  9 10 11 12  0  1  2  3  4  5            7  1  8  2  9  3 10  4 11  5 12  6
+ 7  8  9 10 11 12  0  1  2  3  4  5  6            8  3 11  6  1  9  4 12  7  2 10  5
+ 8  9 10 11 12  0  1  2  3  4  5  6  7            9  5  1 10  6  2 11  7  3 12  8  4
+ 9 10 11 12  0  1  2  3  4  5  6  7  8            10  7  4  1 11  8  5  2 12  9  6  3
+10 11 12  0  1  2  3  4  5  6  7  8  9            11  9  7  5  3  1 12 10  8  6  4  2
+11 12  0  1  2  3  4  5  6  7  8  9 10            12 11 10  9  8  7  6  5  4  3  2  1
+12  0  1  2  3  4  5  6  7  8  9 10 11
+```
+
+If we inspect diagonal of multiplication table we will obtain the following vectors:
+
+```pen
+ix:  1 2 3 4 5  6  7  8  9 10 11 12
+val: 1 4 9 3 12 10 10 12 3 9  4  1
+```
+
+Two remarks: Each number occurs twice in `val` and not all numbers from 1..12 are present there.
+That will mean not always `square`  is possible within modulus.
+The values in `val` are called quadratic residues. Other `quadratic non-residues`.
+Meaning in modulus 13: 1, 3, 4, 9, 10, 12 are `quadratic residues`.
+And 2, 5, 6, 7, 8, 11 are `quadratic non-residues`.
+
+Taking the above into account we will have the following points obeying the elliptic equation `y^2 == x^3 + 2x + 4`:
+
+```pen
+x=0, y^2= 4 => (0,2) and (0,11) -> two points
+x=1, y^2= 1 + 2 + 4 = 7 -> no point
+x=2, y^2= 8 + 4 + 4 = 16 mod 13 = 3 -> (2,4) and (2,9)
+x=3, y^2= 1 + 6 + 4 = 11 -> no point
+x=4, y^2= 12 + 8 + 4 = 24 mod 13 = 11 -> no point
+x=5, y^2= 8 + 10 + 4 = 9 -> (5,3) and (5,10)
+x=6, y^2= 8 + 12 + 4 = 24 mod 13 = 11 -> no point
+x=7, y^2= 5 + 14 + 4 = 23 mod 13 = 10 -> (7,6) and (7,7)
+x=8, y^2= 5 + 16 + 4 = 25 mod 13 = 12 -> (8,5) and (8,8)
+x=9, y^2= 1 + 18 + 4 = 23 mod 13 = 10 -> (9,6) and (9,7)
+x=10, y^2= 12 + 20 + 4 = 36 mod 13 = 10 -> (10,6) and (10,7)
+x=11, y^2= 5 + 22 + 4 = 31 mod 13 = 5 -> no point
+x=12, y^2= 12 + 24 + 4 = 40 mod 13 = 1 -> (12,1) and (12,12)
+```
+
+<summary>SageMath</summary>
+
+```sagemath
+
+sage: F13=GF(13)
+sage: a = F13(2)
+sage: b = F13(4)
+sage: # discriminant obeys condition
+sage: F13(6)*(F13(4)*a^3+F13(27)*b^2) != F13(0)
+True
+sage: E = EllipticCurve(F13,[a,b]) # y^2 == x^3 + 2x + 4
+sage: P = E(0,2) # 2^2 == 0^3 + 2*0 + 4 mod 13
+sage: P.xy()
+(0, 2)
+sage: INF=E(0)
+sage: try:
+....:     INF.xy()
+....: except ZeroDivisionError:
+....:     pass
+....:
+sage: P = E.plot()
+sage: P.save("elliptic13.png")
+
+```
+</details>
+
+The elliptic curve is visualized in ![y^2 == x^3 + 2x + 4 mod 13](./img/elliptic13.png).
+Notice that the same points are as it was calculated above.
