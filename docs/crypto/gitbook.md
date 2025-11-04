@@ -962,6 +962,7 @@ x=11, y^2= 5 + 22 + 4 = 31 mod 13 = 5 -> no point
 x=12, y^2= 12 + 24 + 4 = 40 mod 13 = 1 -> (12,1) and (12,12)
 ```
 
+<details>
 <summary>SageMath</summary>
 
 ```sagemath
@@ -988,5 +989,6 @@ sage: P.save("elliptic13.png")
 ```
 </details>
 
-The elliptic curve is visualized in ![y^2 == x^3 + 2x + 4 mod 13](./img/elliptic13.png).
-Notice that the same points are as it was calculated above.
+![y^2 == x^3 + 2x + 4 mod 13](./img/elliptic13.png).
+
+The elliptic curve ("elliptic13.png") is visualized above. Notice that the same points are as it was calculated above.
