@@ -95,10 +95,24 @@
 <summary>Month 3 - November 2025</summary>
 
 ### 3 Nov 2025
-- Implementing ECDSA from scratch using SageMath
+- Implementing ECDSA from scratch using SageMath - part 1
 - Week#5 ZK bootcamp (mult/add of BN128 in solidity and understanding zk problem from computational point of view)
 
 ### 4 Nov 2025
-- Implement
+- Implementing ECDSA from scratch using SageMath - part 2
+
+### 6 Nov 2025
+- Week#5 ZK bootcamp office hours
+- pen and pencil exercises for Week#5
+
+### 10 Nov 2025
+- Week#6 ZK bootcamp (the fundamentals of pairing concept)
+
+### 12 Nov 2025
+- practicing pairing calculations (solving xy=NUM, and xyz=NUM, ....)
+
+### 13 Nov 2025
+- Week#6 ZK bootcamp office hours (practical exercices for pairing, why it is relevant for Groth16 plus Python <-> solidity compatibility)
+- reading more about polynomial groups
 
 </details>
