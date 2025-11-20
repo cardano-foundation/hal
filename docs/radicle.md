@@ -120,7 +120,13 @@ first impressions, and decided whether and how to continue the evaluation.
 1. We keep using Radicle in the meantime on the 2 current repositories
 1. We take a final decision after that
 
+## November 2025 Decision
 
+1. Radicle has many qualities
+2. But we still needed GitHub for some things (e.g. Actions, Pages, and community building)
+3. Using a combination of GitHub and Radicle was extra work and error prone
+
+Therefore we decided to stop using Radicle.
 
 [radicle]: https://radicle.xyz
 
