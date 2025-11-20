@@ -43,7 +43,7 @@ The URL must point to a .tar.gz of the source code of a specific branch, tag or 
 Look at the `url` field in existing formulae or follow these examples:
 
 - <https://github.com/IntersectMBO/cardano-node/archive/refs/tags/10.5.1.tar.gz> points to a version tag.
-- <https://github.com/IntersectMBO/ouroboros-consensus/archive/refs/heads/release/ouroboros-consensus-0.28.0.0.tar.gz> point to a release branch
+- <https://github.com/IntersectMBO/ouroboros-consensus/archive/refs/heads/release/ouroboros-consensus-0.28.0.0.tar.gz> points to a release/version branch
 - <https://github.com/intersectMBO/libsodium/archive/dbb48cce5429cb6585c9034f002568964f1ce567.tar.gz> points to a commit - here brew will not be able to deduce a version so a `--set-version` flag will be needed.
 
 Use `brew create --help` to see whether brew has a template for the kind of code used in the repository (e.g. it has a `--cabal` option for Haskell and a `--rust` option for Rust).
@@ -90,7 +90,7 @@ HOMEBREW_NO_INSTALL_FROM_API=1 brew install --build-from-source --verbose --debu
 This will attempt to use your Formula to build, from source, a locally installed version of the package. Again, fix all errors before proceeding. N.B. Once the installation succeeded at least once, if you want to make changes, you will need to replace `install` by `reinstall` in the above command.
 
 ```
-HOMEBREW_NO_INSTALL_FROM_API=1 brew test libsodium-cardano
+HOMEBREW_NO_INSTALL_FROM_API=1 brew test amaru
 ```
 
 This will test the resulting installation (using the test you should have provided in the formula).
