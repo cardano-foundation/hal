@@ -31,7 +31,7 @@ team members is designated as being "in charge" of a product.
 ## Code repositories
 
 The code worked on by the team is spread across many Git repositories. We use
-[GitHub][GH], and sometimes [Radicle][Radicle] (mirrored to GitHub), to host
+[GitHub][GH] to host
 the repositories and provide collaboration tools (issues, pull requests etc.)
 
 The list of repositories we work on is in the [README][README]
@@ -101,7 +101,7 @@ The Git workflow is usually:
 
 - create a short-lived branch (from main) to carry out work
 - during the work, whenever possible, rebase from main, and commit progress
-- when the work is ready, create a pull request (GitHub) or patch (Radicle)
+- when the work is ready, create a pull request (GitHub)
 - get another team member to review the work as soon as possible
 - merge back to main and delete the branch
 
@@ -211,7 +211,6 @@ discussed, clarified, changed or improved.
 
 ### Version control improvements
 
-- Are we keeping Radicle? What about GitHub?
 - Should we adopt TBD?
 - Some people want commit conventions, can we define them?
 - What about additional tools:
@@ -266,7 +265,6 @@ discussed, clarified, changed or improved.
 [GHCF]: https://github.com/cardano-foundation
 [GHAB]: https://github.com/abailly
 [GHHAL]: https://github.com/cardano-foundation/hal
-[Radicle]: https://radicle.xyz/
 [HaskellStyle]: https://github.com/input-output-hk/adrestia/blob/master/docs/code/Coding-Standards.md
 [RepoChecklist]: https://github.com/input-output-hk/adrestia/blob/master/docs/code/New-Repo-Checklist.md
 [newBacklog]: https://jpattonassociates.com/the-new-backlog/
