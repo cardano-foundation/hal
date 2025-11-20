@@ -73,8 +73,7 @@ git checkout -b amaru
 
 From now on, as you work on the formula, you can commit (locally) to save your progress.
 
-To adapt the generated formula to the specifics of the project, get inspiration from existing formula in the [notunrandom/cardano][tap], read the [Formula Cookbook][formula] and/or get inspiration from exiting formulae in [Homebrew/Core][core]
-3.
+To adapt the generated formula to the specifics of the project, get inspiration from existing formula in the [notunrandom/cardano][tap], read the [Formula Cookbook][formula] and/or get inspiration from exiting formulae in [Homebrew/Core][core].
 
 When you are ready to try it out, you must first test your formula locally using these three steps (I will use the example of the Amaru formula initialised above):
 
