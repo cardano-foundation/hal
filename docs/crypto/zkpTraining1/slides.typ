@@ -721,7 +721,7 @@ addition mod 13
 
   #only((2))[
       #grid(
-      columns: (2fr, 3fr),
+      columns: (2fr, 2fr),
       rows: (auto),
       gutter: 3pt,
   ```j
@@ -740,16 +740,174 @@ addition mod 13
 12 11 10  9  8  7  6  5  4  3  2  1
   ```
         , text(blue)[
-        Doing
-        - 2 2
-        - 2 2 2
-        - 2 2 2 2 ..
-        we can generate EACH element -> the group is cyclic
+        - 3 . 3 = 9
+        - 3 . 3 . 3 = 1
+        - 3 . 3 . 3 . 3 = 3
+        we can NOT generate EACH element -> 3 is not generator
         ]
+    )
+  ]
+
+  #only((3))[
+      #grid(
+      columns: (2fr, 2fr),
+      rows: (auto),
+      gutter: 3pt,
+  ```j
+  multiplication mod 13
+1  2  3  4  5  6  7  8  9 10 11 12
+2  4  6  8 10 12  1  3  5  7  9 11
+3  6  9 12  2  5  8 11  1  4  7 10
+4  8 12  3  7 11  2  6 10  1  5  9
+5 10  2  7 12  4  9  1  6 11  3  8
+6 12  5 11  4 10  3  9  2  8  1  7
+7  1  8  2  9  3 10  4 11  5 12  6
+8  3 11  6  1  9  4 12  7  2 10  5
+9  5  1 10  6  2 11  7  3 12  8  4
+10  7  4  1 11  8  5  2 12  9  6  3
+11  9  7  5  3  1 12 10  8  6  4  2
+12 11 10  9  8  7  6  5  4  3  2  1
+  ```
+        , text(blue)[
+        - 8 . 8 = 12
+        - 8 . 8 . 8 = 5
+        - 8 . 8 . 8 . 8 = 1
+        we can NOT generate EACH element -> 8 is not generator
+        ]
+    )
+  ]
+
+  #only((4))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+  ```j
+  multiplication mod 13
+1  2  3  4  5  6  7  8  9 10 11 12
+2  4  6  8 10 12  1  3  5  7  9 11
+3  6  9 12  2  5  8 11  1  4  7 10
+4  8 12  3  7 11  2  6 10  1  5  9
+5 10  2  7 12  4  9  1  6 11  3  8
+6 12  5 11  4 10  3  9  2  8  1  7
+7  1  8  2  9  3 10  4 11  5 12  6
+8  3 11  6  1  9  4 12  7  2 10  5
+9  5  1 10  6  2 11  7  3 12  8  4
+10  7  4  1 11  8  5  2 12  9  6  3
+11  9  7  5  3  1 12 10  8  6  4  2
+12 11 10  9  8  7  6  5  4  3  2  1
+  ```
+        , text(blue, size: 15pt)[
+        - 2 . 2 = 4
+        - 2 . 2 . 2 = 8
+        - 2 . 2 . 2 . 2 = 3
+        - 2 . 2 . 2 . 2 . 2 = 6
+        - 2 . 2 . 2 . 2 . 2 . 2 = 12
+        - 2 . 2 . 2 . 2 . 2 . 2 . 2 = 11
+        - 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 = 9
+        - 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 = 5
+        - 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 = 10
+        - 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 = 7
+        - 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 . 2 = 1
+        we can generate EVERY element -> 2 is *generator*, group is *cyclic*
+        ]
+    )
+  ]
+
+]
+
+#slide[
+  = *Elliptic curves (4)*
+
+  #show raw: it => block(
+    fill: rgb("#1d2433"),
+    inset: 8pt,
+    radius: 5pt,
+    text(fill: rgb("#a2aabc"), it)
+  )
+
+  #show raw.where(block: true): set text(1em / 1.5)
+
+  #only((1))[
+      #grid(
+      columns: (2fr, 0.75fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue)[
+        Visually addition looks like here for elliptic curves
+        with one remark: it is modulo PRIME
+      ]
+     , image("assets/ellipticAdd.png")
+    )
+  ]
+
+  #only((2))[
+      #grid(
+      columns: (2fr, 0.75fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue)[
+        It is called *Chord-and-tangent rule visually*
+        $P_1 + P_2 = P_3$
+      ]
+     , image("assets/ellipticAdd.png")
+    )
+  ]
+
+  #only((3))[
+      #grid(
+      columns: (auto),
+      rows: (0.3fr, 1fr),
+      gutter: 3pt,
+      text(blue)[
+        *y=INF* is identity element, and because of that
+        $P^(-1)_1 = P_2 $
+        $Q^(-1)_1 = Q_2 $
+      ]
+     , image("assets/ellipticInv.png")
+    )
+  ]
+
+  #only((4))[
+      #grid(
+      columns: (auto),
+      rows: (0.2fr, 0.65fr, 0.65fr),
+      gutter: 3pt,
+      text(blue)[
+        *Chord-and-tangent rule algebraically*
+      ]
+     , image("assets/ellipticTangent.png")
+     , image("assets/ellipticChord.png")
     )
   ]
 ]
 
+#slide[
+  = *Elliptic curves (5)*
+
+  #only((1))[
+    #image("assets/elliptic13.png")
+  ]
+
+  #only((2))[
+    #image("assets/elliptic13.png")
+
+    #place(
+      top + left,
+      line(start: (12%, 15%), end: (12%, 85%),  stroke: (paint: red, thickness: 3pt, dash: "dashed")),
+    )
+  ]
+
+  #only((3))[
+    #image("assets/elliptic13.png")
+
+    #place(
+      top + left,
+        line(end: (58%, 35%), start: (24%, 85%),  stroke: (paint: red, thickness: 3pt, dash: "dashed")),
+    )
+  ]
+
+]
 
 #friendly.last-slide(
   title: [That's it! More to come in the future],
