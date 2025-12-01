@@ -1026,7 +1026,7 @@ sage: xHidden
 
   #only((4))[
     #align(center)[
-      #text(red, size: 25pt)[holomorphic encryption]
+      #text(red, size: 25pt)[!homomorphic encryption preserves operations!]
     ]
   ]
 ]
@@ -1057,6 +1057,49 @@ sage: xHidden
       ]
   ]
 ]
+
+#slide[
+  = *Pairings of elliptic curves (1)*
+
+      #text(blue, size: 20pt)[
+            We are going to use TWO groups together \
+            $(G_1, G_2) = G_T$ \
+            $G_1$ elliptic curve point => 2 numbers \
+            $G_2$ elliptic curve point over an extended field in the form of \
+            polynomials *aw + b*  and   *a'w + b'*  => 4 numbers
+            ]
+      #align(center)[
+        #text(red, size: 25pt)[
+              For $A in G_1$, $B in G_2$ and $C in G_T$ \
+              \
+              $G_T$ is multiplicative \
+              e(A,B)=C => e($A^x$, $B^y$)= $C^"xy"$
+              ]
+      ]
+]
+
+#slide[
+  = *Pairings of elliptic curves (2)*
+
+      #text(blue, size: 20pt)[
+            $G_1$ has generator A\
+            $G_2$ has generator B\
+            C is pairing e($G_1$, $G_2$)=g \
+            xy=12 \
+            x=4 and y=3 \
+            e(4A, 3B)=$C^12$
+            ]
+      #align(center)[
+        #text(red, size: 25pt)[
+                $G_1$ and $G_2$ are elliptic groups \
+                $G_T$ is multiplicative group of an extensive field \
+                \
+                $G_1$ = $G_2$ symmetric \
+                $G_1 eq.not G_2$ antisymmetric (used in production due to performance)
+              ]
+      ]
+]
+
 
 #friendly.last-slide(
   title: [That's it! More to come in the future],
