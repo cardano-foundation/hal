@@ -847,7 +847,7 @@ addition mod 13
       rows: (auto),
       gutter: 3pt,
       text(blue)[
-        It is called *Chord-and-tangent rule visually*
+        It is called *chord-and-tangent* rule and visually is looks like below
         $P_1 + P_2 = P_3$
       ]
      , image("assets/ellipticAdd.png")
@@ -874,7 +874,7 @@ addition mod 13
       rows: (0.2fr, 0.65fr, 0.65fr),
       gutter: 3pt,
       text(blue)[
-        *Chord-and-tangent rule algebraically*
+        *chord-and-tangent* rule algebraically is following
       ]
      , image("assets/ellipticTangent.png")
      , image("assets/ellipticChord.png")
@@ -939,7 +939,123 @@ False
 sage: E(8,5) + E(9,6) == E(10,6)
 True
   ```
+]
 
+#slide[
+  = *Elliptic curves (7)*
+
+  #show raw: it => block(
+    fill: rgb("#1d2433"),
+    inset: 8pt,
+    radius: 5pt,
+    text(fill: rgb("#a2aabc"), it)
+  )
+
+  #show raw.where(block: true): set text(1em / 1.5)
+
+```sagemath
+sage: # Bitcoin’s secp256k1 curve
+sage: # p = 2^256-2^32-977
+sage: p =115792089237316195423570985008687907853269984665640564039457584007908834671663
+sage: p.is_prime()
+True
+sage: p.nbits()
+256
+sage: Fp = GF(p)
+sage: secp256k1 = EllipticCurve(Fp,[0,7])
+sage: # Base point
+sage: gx= 55066263022277343669578718895168534326250603453777594175500187360389116729240L
+sage: gy= 32670510020758816978083085130507043184471273380659243275938904335757337482424L
+sage: G = secp256k1(Fp(gx), Fp(gy))
+```
+]
+
+#slide[
+  = *Elliptic curves (8)*
+
+  #show raw: it => block(
+    fill: rgb("#1d2433"),
+    inset: 8pt,
+    radius: 5pt,
+    text(fill: rgb("#a2aabc"), it)
+  )
+
+  #show raw.where(block: true): set text(1em / 1.5)
+
+  #only((1))[
+```sagemath
+sage: # we have x + y = 9 to solve
+sage: # PROVER provided a solution (x=2, y=7) and has the proof for it
+sage: #
+sage: xHidden = 2*G
+sage: yHidden = 7*G
+sage:
+sage: # VERIFIER knows 9 which is public knowledge and gets solution hidden in POINTS
+sage: rhsPoint = 9*G
+sage: rhsPoint == xHidden + yHidden
+True
+
+sage: xHidden
+(89565891926547004231252920425935692360644145829622209833684329913297188986597 : 12158399299693830322967808612713398636155367887041628176798871954788371653930 : 1)
+```
+]
+
+  #only((2,3,4))[
+    #grid(
+      columns: (1fr, 2fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      circle(fill: rgb("e4e5ea"),
+            [#set align(center + horizon)
+             Prover]),
+      grid.cell(simple-arrow(end: (350pt, 0pt)), align: center, inset: 30%),
+      circle(fill: rgb("e4e5ea"),
+             [#set align(center + horizon)
+              Verifier])
+      )
+  ]
+
+  #only((3,4))[
+    #align(left)[
+      #text(blue, size: 20pt)[x=2, y=7 and sends xG and yG]
+    ]
+    #align(right)[
+      #text(blue, size: 20pt)[can check *xG + yG = 9G*, but cannot retrieve x and y]
+    ]
+  ]
+
+  #only((4))[
+    #align(center)[
+      #text(red, size: 25pt)[holomorphic encryption]
+    ]
+  ]
+]
+
+#slide[
+  = *Elliptic curves (9)*
+
+  #only((1,2))[
+      #text(blue, size: 20pt)[
+            At this moment we can solve problems that are linear, meaning \
+            can be expressed as set of linear expressions:
+            $ a_11 * x_1 + a_12 * x_2 + ... = b_1 $
+            $ a_21 * x_1 + a_22 * x_2 + ... = b_2 $
+            $ ... $
+            $ a_"n1" * x_1 + a_"n2" * x_2 + ... = b_"n" $
+            but we cannot solve:
+            ]
+      #align(center)[
+        #text(red, size: 25pt)[
+              *xy = 9*
+              ]
+      ]
+  ]
+
+  #only((2))[
+      #align(center)[
+        #text(red)[=> *pairings*]
+      ]
+  ]
 ]
 
 #friendly.last-slide(
