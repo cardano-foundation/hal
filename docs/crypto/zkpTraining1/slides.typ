@@ -883,7 +883,7 @@ addition mod 13
 ]
 
 #slide[
-  = *Elliptic curves (5)*
+  = *Elliptic curves (5) (mod 13)*
 
   #only((1))[
     #image("assets/elliptic13.png")
@@ -905,7 +905,40 @@ addition mod 13
       top + left,
         line(end: (58%, 35%), start: (24%, 85%),  stroke: (paint: red, thickness: 3pt, dash: "dashed")),
     )
+
+    #place(
+      top + left,
+        line(end: (47%, 52%), start: (47%, 57%),  stroke: (paint: red, thickness: 3pt, dash: "dashed")),
+    )
+
   ]
+]
+
+#slide[
+  = *Elliptic curves (6) (mod 13)*
+
+  #show raw: it => block(
+    fill: rgb("#1d2433"),
+    inset: 8pt,
+    radius: 5pt,
+    text(fill: rgb("#a2aabc"), it)
+  )
+
+  #show raw.where(block: true): set text(1em / 1.5)
+
+  ```sagemath
+sage: F13 = GF(13)
+sage: a = F13(2)
+sage: b = F13(4)
+sage: E = EllipticCurve(F13,[a,b]) # y^2 == x^3 + 2x + 4
+sage: INF=E(0)
+sage: E(2,4) + E(2,9) == INF
+True
+sage: E(8,5) + E(9,6) == E(10,7)
+False
+sage: E(8,5) + E(9,6) == E(10,6)
+True
+  ```
 
 ]
 
