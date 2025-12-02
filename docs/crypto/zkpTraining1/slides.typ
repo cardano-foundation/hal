@@ -1100,6 +1100,218 @@ sage: xHidden
       ]
 ]
 
+#slide[
+  = *Pairings of elliptic curves (3)*
+
+  #only((1))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue, size: 25pt)[
+            Every elliptic curve gives rise to a pairing map\
+            *BUT* \
+            not every such pairing can be efficiently computed\
+            \
+            =>\
+                        *embedding degree of a curve*
+              ],
+      image("assets/elliptic13.png")
+      )
+  ]
+
+  #only((2))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue, size: 20pt)[
+                   embedding degree of a curve *k*\
+                   8 pairs + identity (INF) = 17\
+                   => \
+                        order r = 17\
+                        p = 13\
+                   \
+                   $r | p^k - 1$],
+      image("assets/elliptic13.png")
+      )
+  ]
+
+  #only((3))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue, size: 20pt)[
+                   embedding degree of a curve *k*\
+                   8 pairs + identity (INF) = 17\
+                   => \
+                        order r = 17\
+                        p = 13\
+                   \
+                   $r | p^k - 1$\
+                   $17 | 13^1 -1$ <=> 17|13 NO ],
+      image("assets/elliptic13.png")
+      )
+  ]
+
+  #only((4))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue, size: 20pt)[
+                   embedding degree of a curve *k*\
+                   8 pairs + identity (INF) = 17\
+                   => \
+                        order r = 17\
+                        p = 13\
+                   \
+                   $r | p^k - 1$\
+                   $17 | 13^1 -1$ <=> 17|13 NO\
+                   $17 | 13^2 -1$ <=> 17|168 NO ],
+      image("assets/elliptic13.png")
+      )
+  ]
+
+  #only((5))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue, size: 20pt)[
+                   embedding degree of a curve *k*\
+                   8 pairs + identity (INF) = 17\
+                   => \
+                        order r = 17\
+                        p = 13\
+                   \
+                   $r | p^k - 1$\
+                   $17 | 13^1 -1$ <=> 17|13 NO\
+                   $17 | 13^2 -1$ <=> 17|168 NO\
+                   $17 | 13^3 -1$ <=> 17|2196 NO ],
+      image("assets/elliptic13.png")
+      )
+  ]
+
+  #only((6))[
+      #grid(
+      columns: (1fr, 1fr),
+      rows: (auto),
+      gutter: 3pt,
+      text(blue, size: 20pt)[
+                   embedding degree of a curve *k*\
+                   8 pairs + identity (INF) = 17\
+                   => \
+                        order r = 17\
+                        p = 13\
+                   \
+                   $r | p^k - 1$\
+                   $17 | 13^1 -1$ <=> 17|13 NO\
+                   $17 | 13^2 -1$ <=> 17|168 NO\
+                   $17 | 13^3 -1$ <=> 17|2196 NO\
+                   $17 | 13^4 -1$ <=> 17|28560 YES\
+                   \
+                   *k=4*],
+      image("assets/elliptic13.png")
+      )
+  ]
+
+  #show raw: it => block(
+    fill: rgb("#1d2433"),
+    inset: 8pt,
+    radius: 5pt,
+    text(fill: rgb("#a2aabc"), it)
+  )
+
+  #show raw.where(block: true): set text(1em / 1.5)
+
+  #only((7))[
+```sagemath
+sage: p=13
+sage: F13=GF(p)
+sage: a = F13(2)
+sage: b = F13(4)
+sage: E = EllipticCurve(F13,[a,b])
+sage: r= E.order()
+17
+sage: k = 1
+sage: while True:
+....:     # Check if the order r divides (p^k - 1)
+....:     if (p**k - 1) % r == 0:
+....:         print(f"The embedding degree k is: {k}")
+....:         break
+....:     k += 1
+....:
+The embedding degree k is: 4
+```
+  ]
+]
+
+#slide[
+  = *Pairings of elliptic curves (4)*
+
+  #show raw: it => block(
+    fill: rgb("#1d2433"),
+    inset: 8pt,
+    radius: 5pt,
+    text(fill: rgb("#a2aabc"), it)
+  )
+
+  #show raw.where(block: true): set text(1em / 1.5)
+
+```sagemath
+sage: # Now again secp256k1
+sage: p =115792089237316195423570985008687907853269984665640564039457584007908834671663
+sage: Fp = GF(p)
+sage: secp256k1 = EllipticCurve(Fp,[0,7])
+sage: r= secp256k1.order()
+sage: r
+115792089237316195423570985008687907852837564279074904382605163141518161494337
+sage: k = 1
+sage: while k < 1000:
+....:     if (p^k-1)%r == 0:
+....:         break
+....:     k=k+1
+....:
+sage: k
+1000
+
+sage: # in fact it very large
+sage: # k =192986815395526992372618308347813175472927379845817397100860523586360249056
+```
+]
+
+#slide[
+  = *Pairings of elliptic curves (5)*
+
+   #only((1))[
+    #text(blue, size: 20pt)[
+          *secp256k1* is a curve that has large k\
+          As extension field is built over $p^k$ it means the extension field is here extremely big.
+          => *secp256k1* NEEDS k-many entries, each of them 256 bits\
+          => well not enough atoms in the observable universe out there
+      ]
+   ]
+
+   #only((2))[
+    #text(blue, size: 20pt)[
+          *secp256k1* is a curve that has large k\
+          As extension field is built over $p^k$ it means the extension field is here extremely big.
+          => *secp256k1* NEEDS k-many entries, each of them 256 bits\
+          => well not enough atoms in the observable universe out there\
+          \
+      ]
+    #text(red, size: 20pt)[
+          *secp256k1* is not pairing-friendly\
+          we want curves with low embedding degree:\
+          BN128 -> 12 \
+          Jubjub\
+          BLS\
+      ]
+   ]
+
+]
 
 #friendly.last-slide(
   title: [That's it! More to come in the future],
