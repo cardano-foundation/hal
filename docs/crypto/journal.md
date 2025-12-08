@@ -115,4 +115,46 @@
 - Week#6 ZK bootcamp office hours (practical exercices for pairing, why it is relevant for Groth16 plus Python <-> solidity compatibility)
 - reading more about polynomial groups
 
+### 17 Nov 2025
+ - Week#7 ZK bootcamp (first circuits - pen and paper)
+
+### 18 Nov 2025
+ - understanding difference between Montgomery and Edwards representation for elliptic curves
+
+### 20 Nov 2025
+ - Week#7 ZK bootcamp office hours (first circuits - pen and paper exercises)
+
+### 21 Nov 2025
+ - starting the preparation of engineering meet-up presentation
+
+### 24 Nov 2025
+  - Week#8 ZK bootcamp (first circuits - circom)
+
+### 25 Nov 2025
+ - engineering meet-up presentation - modular arithmetic part
+
+### 26 Nov 2025
+  - Week#8 ZK bootcamp office hours (exercises of simple circuits in circom)
+
+### 27 Nov 2025
+ - engineering meet-up presentation - elliptic arithmetic part
+
+</details>
+
+<details>
+<summary>Month 4 - December 2025</summary>
+
+### 1 Dec 2025
+ - engineering meet-up presentation - elliptic paring part
+
+### 2 Dec 2025
+ - engineering meet-up presentation - polishing
+
+### 3 Dec 2025 - 5 Dec 2025
+ - enginnering offsite in Galway - presenting [zkp - elliptic curves - part 1](https://github.com/cardano-foundation/hal/tree/main/docs/crypto/zkpTraining1/slides.pdf)
+
+### 8 Dec 2025
+ - Week#10 ZK bootcamp (intermediate circuits via circom)
+ - extending zk training materials (more on examples of pairing)
+
 </details>
