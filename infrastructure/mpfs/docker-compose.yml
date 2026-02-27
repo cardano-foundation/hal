@@ -15,8 +15,8 @@ services:
     environment:
       CARDANO_NODE_SOCKET_PATH: /ipc/node-socket
     volumes:
-      - ${MPFS_DIR}/db:/data
-      - ${MPFS_DIR}/ipc:/ipc
+      - /opt/mpfs/preprod/db:/data
+      - /opt/mpfs/preprod/ipc:/ipc
       - ./configs:/configs
     restart: always
     logging:
@@ -48,9 +48,8 @@ services:
         max-file: "20"
     restart: always
     volumes:
-      - ${MPFS_DIR}/ipc:/ipc
+      - /opt/mpfs/preprod/ipc:/ipc
       - ./configs:/node/configs
-
     command:
       - --node-socket
       - /ipc/node.socket
@@ -59,7 +58,7 @@ services:
       - --host
       - "0.0.0.0"
     networks:
-      - ogmios-preprod # serve on 1337
+      - ogmios-preprod
 
   yaci-store-preprod:
     image: bloxbean/yaci-store:2.0.0-beta4
@@ -67,13 +66,14 @@ services:
     depends_on:
       - cardano-node-preprod
       - yaci-store-db-preprod
+    secrets:
+      - db-password
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:postgresql://yaci-store-db-preprod:5432/yaci_store?currentSchema=utxo_indexer}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://yaci-store-db-preprod:5432/yaci_store?currentSchema=utxo_indexer
+      - SPRING_DATASOURCE_USERNAME=yaci
+      - SPRING_DATASOURCE_PASSWORD_FILE=/run/secrets/db-password
     volumes:
-      - ${MPFS_DIR}/yaci-store/logs:/app/logs/
+      - /opt/mpfs/preprod/yaci-store/logs:/app/logs/
       - ./application.properties:/app/config/application.properties
     logging:
       driver: "json-file"
@@ -86,22 +86,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
     networks:
        - cardano-node-preprod
-       - yaci-store-preprod # serve on 8080
-       - yaci-store-db-preprod # connect to the db
+       - yaci-store-preprod
+       - yaci-store-db-preprod
 
   yaci-store-db-preprod:
     image: postgres:17.4
     container_name: yaci-store-db-preprod
+    secrets:
+      - db-password
     environment:
       - POSTGRES_DB=yaci_store
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-
+      - POSTGRES_USER=yaci
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
     volumes:
-      - ${MPFS_DIR}/yaci-store/db:/var/lib/postgresql/data
+      - /opt/mpfs/preprod/yaci-store/db:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "sh -c 'pg_isready -U yaci -d yaci_store'" ]
       interval: 10s
@@ -114,7 +114,7 @@ services:
         max-size: "200k"
         max-file: "100"
     networks:
-      - yaci-store-db-preprod # serve on 5432
+      - yaci-store-db-preprod
 
   mpfs:
     image: ghcr.io/cardano-foundation/mpfs/mpfs:v1.1.1
@@ -148,7 +148,11 @@ services:
       - "3000:3000"
     restart: on-failure
     volumes:
-      - ${MPFS_DIR}/mpfs:/data
+      - /opt/mpfs/preprod/mpfs:/data
+
+secrets:
+  db-password:
+    file: /home/paolino/secrets/mpfs/db-password
 
 networks:
     cardano-node-preprod:
