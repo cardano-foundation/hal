@@ -16,8 +16,8 @@ services:
     command: --max-requests-per-batch 1
 secrets:
   oracle-wallet:
-    file: ./oracle.json
+    file: /home/paolino/secrets/moog/oracle/oracle.json
   secrets:
-    file: ./secrets.yaml 
+    file: /home/paolino/secrets/moog/oracle/secrets.yaml 
 volumes:
   tmp:

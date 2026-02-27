@@ -24,11 +24,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 secrets:
   agent-wallet:
-    file: ./agent.json # Path to a file containing the wallet
+    file: /home/paolino/secrets/moog/agent/agent.json # Path to a file containing the wallet
   secrets:
-    file: ./secrets.yaml # Path to a file containing the secrets
+    file: /home/paolino/secrets/moog/agent/secrets.yaml # Path to a file containing the secrets
   docker:
-    file: ./docker-config.json # Path to a file containing Docker config (for private registries)
+    file: /home/paolino/secrets/moog/agent/docker-config.json # Path to a file containing Docker config (for private registries)
 
 volumes:
   tmp:
