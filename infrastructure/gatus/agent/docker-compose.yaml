@@ -1,0 +1,14 @@
+services:
+  gatus:
+    image: twinproduction/gatus:latest
+    container_name: gatus
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - /home/paolino/secrets/gatus/.env
+    volumes:
+      - /opt/hal/infrastructure/gatus/agent/config.yaml:/config/config.yaml:ro
+      - gatus-data:/data
+
+volumes:
+  gatus-data:

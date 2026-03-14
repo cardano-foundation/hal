@@ -1,0 +1,22 @@
+storage:
+  type: sqlite
+  path: /data/gatus.db
+
+alerting:
+  telegram:
+    token: ${TELEGRAM_BOT_TOKEN}
+    id: ${TELEGRAM_CHAT_ID}
+    default-alert:
+      enabled: true
+      send-on-resolved: true
+      failure-threshold: 2
+      success-threshold: 1
+
+endpoints:
+  - name: MPFS reachable from oracle
+    url: http://10.1.21.21:3000/tokens
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: telegram

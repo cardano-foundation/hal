@@ -1,0 +1,41 @@
+storage:
+  type: sqlite
+  path: /data/gatus.db
+
+alerting:
+  telegram:
+    token: ${TELEGRAM_BOT_TOKEN}
+    id: ${TELEGRAM_CHAT_ID}
+    default-alert:
+      enabled: true
+      send-on-resolved: true
+      failure-threshold: 2
+      success-threshold: 1
+
+endpoints:
+  - name: MPFS synced
+    url: http://localhost:3000/tokens
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].indexerStatus.indexerTip == [BODY].indexerStatus.networkTip"
+    alerts:
+      - type: telegram
+
+  - name: Ogmios
+    url: http://localhost:1337/health
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].networkSynchronization == 1"
+    alerts:
+      - type: telegram
+
+  - name: Yaci Store
+    url: http://localhost:8080/actuator/health
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].status == UP"
+    alerts:
+      - type: telegram
