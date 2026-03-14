@@ -7,22 +7,23 @@ This directory contains the necessary files and instructions to deploy an MPFS s
 To set up a fresh MPFS deployment, follow these steps:
 1. SSH into the mpfs server.
 2. Install git.
-3. Clone the repository and navigate to the `docs/deployment/mpfs` directory.
-4. Edit .env file to set the target directory.
-5. Source the bootstrap script to set up the node database with mithril snapshots.
+3. Clone the repository to `/opt/hal` and run from there.
+4. Source the bootstrap script to set up the node database with mithril snapshots.
 
 ```bash
 apt install git -y
-git clone https://github.com/cardano-foundation/hal.git
-cd docs/deployment/mpfs
-# edit .env to set MPFS_DIR
+git clone https://github.com/cardano-foundation/hal.git /opt/hal
+cd /opt/hal/infrastructure/mpfs
 source bootstrap.sh
 ```
+
+**Always deploy from `/opt/hal/infrastructure/mpfs/`.** Docker Compose resolves `./configs` relative to the working directory — running from any other location will cause containers to mount non-existent paths and crash on restart.
 
 ## Starting services
 
 ```bash
-docker-compose up -d
+cd /opt/hal/infrastructure/mpfs
+docker compose up -d
 ```
 
 ## Bugs

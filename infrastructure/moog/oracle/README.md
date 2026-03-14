@@ -3,11 +3,12 @@
 ## Setup
 
 ```bash
-git clone https://github.com/cardano-foundation/hal.git
-cd hal/infrastructure/moog/oracle
-# copy the secrets in the current dir
+git clone https://github.com/cardano-foundation/hal.git /opt/hal
+cd /opt/hal/infrastructure/moog/oracle
 docker compose up -d
 ```
+
+**Always deploy from `/opt/hal/infrastructure/moog/oracle/`.** Running from a different directory will cause Docker to resolve relative paths incorrectly, leading to failures after reboot.
 
 ## Secrets
 
