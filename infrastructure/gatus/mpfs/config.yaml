@@ -1,3 +1,6 @@
+web:
+  port: 8090
+
 storage:
   type: sqlite
   path: /data/gatus.db
