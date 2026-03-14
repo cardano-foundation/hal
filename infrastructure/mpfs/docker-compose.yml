@@ -47,6 +47,8 @@ services:
         max-size: "400k"
         max-file: "20"
     restart: always
+    ports:
+      - "127.0.0.1:1337:1337"
     volumes:
       - /opt/mpfs/preprod/ipc:/ipc
       - ./configs:/node/configs
@@ -71,6 +73,8 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://yaci-store-db-preprod:5432/yaci_store?currentSchema=utxo_indexer
       - SPRING_DATASOURCE_USERNAME=yaci
+    ports:
+      - "127.0.0.1:8080:8080"
     volumes:
       - /opt/mpfs/preprod/yaci-store/logs:/app/logs/
       - ./application.properties:/app/config/application.properties
