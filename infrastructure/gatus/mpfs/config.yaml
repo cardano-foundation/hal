@@ -42,3 +42,17 @@ endpoints:
       - "[BODY].status == UP"
     alerts:
       - type: telegram
+
+  # Node head freshness, anchored to wall-clock. networkSynchronization drops
+  # below 1 when the node stops following the chain (e.g. an obsolete node after
+  # a protocol-version hard fork). Distinct from "MPFS synced", whose
+  # indexerTip == networkTip stays true when the node tip freezes.
+  - name: Cardano node head
+    url: http://localhost:1337/health
+    interval: 60s
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].connectionStatus == connected"
+      - "[BODY].networkSynchronization == 1"
+    alerts:
+      - type: telegram
