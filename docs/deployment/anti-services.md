@@ -1,3 +1,7 @@
+# Anti services (historical)
+
+> **Superseded.** This page describes the deployment of the `anti` services, since renamed to [Moog](https://github.com/cardano-foundation/moog). The current deployments live in [infrastructure/moog/](../../infrastructure/moog) (compose files pinned to released images, run from `/opt/hal`) — see [infrastructure/README.md](../../infrastructure/README.md). The `rad push` step predates the [November 2025 decision to stop using Radicle](../radicle.md#november-2025-decision). The `.ssh/config` stanzas below are still the way to reach the hosts.
+
 ## Building service images
 
 To build the docker images, the supported way involve nix. Luckily the builder machines are nix-cached already
