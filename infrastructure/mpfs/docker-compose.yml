@@ -63,7 +63,7 @@ services:
       - ogmios-preprod
 
   yaci-store-preprod:
-    image: bloxbean/yaci-store:2.0.0-beta4
+    image: bloxbean/yaci-store:2.0.2.1
     container_name: yaci-store-preprod
     depends_on:
       - cardano-node-preprod
@@ -73,6 +73,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://yaci-store-db-preprod:5432/yaci_store?currentSchema=utxo_indexer
       - SPRING_DATASOURCE_USERNAME=yaci
+      - SPRING_FLYWAY_VALIDATE_ON_MIGRATE=false
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
