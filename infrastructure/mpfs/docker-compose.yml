@@ -11,7 +11,7 @@ services:
 
   cardano-node-preprod:
     container_name: cardano-node-preprod
-    image: ghcr.io/intersectmbo/cardano-node:11.0.1
+    image: ghcr.io/intersectmbo/cardano-node:11.1.2
     environment:
       CARDANO_NODE_SOCKET_PATH: /ipc/node-socket
     volumes:
@@ -63,7 +63,7 @@ services:
       - ogmios-preprod
 
   yaci-store-preprod:
-    image: bloxbean/yaci-store:2.0.2.1
+    image: bloxbean/yaci-store:2.0.3-rc2
     container_name: yaci-store-preprod
     depends_on:
       - cardano-node-preprod
