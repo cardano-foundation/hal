@@ -121,12 +121,13 @@ services:
       - yaci-store-db-preprod
 
   mpfs:
-    image: ghcr.io/cardano-foundation/mpfs/mpfs:v1.3.0
+    image: ghcr.io/cardano-foundation/mpfs/mpfs:v1.3.1@sha256:7ae4f6dbadde0f823371a0aba6173807e89d7d2167de5db9bfd72951e9df524b
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS localhost:3000/tokens >/dev/null"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 1800s
     command:
       - --port
       - "3000"
