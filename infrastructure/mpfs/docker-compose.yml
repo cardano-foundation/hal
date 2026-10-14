@@ -11,7 +11,7 @@ services:
 
   cardano-node-preprod:
     container_name: cardano-node-preprod
-    image: ghcr.io/intersectmbo/cardano-node:11.1.2
+    image: ghcr.io/intersectmbo/cardano-node:11.1.3@sha256:c526d01a6d5c866a05109f0e79cca6a4c0e90fd359f846cc983a788f320bf570
     environment:
       CARDANO_NODE_SOCKET_PATH: /ipc/node-socket
     volumes:
